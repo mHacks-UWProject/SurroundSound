@@ -69,3 +69,17 @@ exports.queryLounges = function(location) {
 		return lounges;
 	});
 }
+
+function likeArtist(artist) {
+	updateArtistCounter(artist, 1);
+}
+
+function dislikeArtist(artist) {
+	updateArtistCounter(artist, -1);
+}
+
+function updateArtistCounter(artist, increment){
+	ArtistModel.findAndModify({ name: artist }, [], { $inc: { counter: increment } });
+
+}
+	

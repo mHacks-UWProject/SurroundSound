@@ -2,6 +2,7 @@ extends layout
 
 block head
   link(rel='stylesheet', href='/stylesheets/vendor/jquery-ui-1.10.0.custom.min.css')
+  link(rel='stylesheet', href='/stylesheets/vendor/font-awesome.min.css')
   script(src='/javascript/dj.js')
   script(src='/javascript/vendor/jquery-ui-1.10.0.custom.min.js')
 
@@ -16,6 +17,13 @@ block content
         .well.well-small
           .song
             img.coverart-large.img-rounded.img-polaroid(src="http://www.progarchives.com/progressive_rock_discography_covers/1199/cover_5110910112009.jpg")
+            .controls
+              .button.btn
+                i.icon-step-backward
+              .button.btn
+                i.icon-play
+              .button.btn
+                i.icon-step-forward
             .title Lateralus
             .artist Tool
             .progress

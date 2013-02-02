@@ -23,7 +23,6 @@ exports.createUser = function(req, res) {
 	database.newLounge(user);
 };
 
-exports.
 
 exports.dj = function(req,res) {
 	var User = mongoose.model("User");
