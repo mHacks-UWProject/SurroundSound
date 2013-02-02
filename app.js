@@ -9,10 +9,9 @@ var express = require('express')
   , path = require('path')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
-  , mongoose = require('mongoose')
-  , env = process.env.MONGO_URL ? process.env.MONGO_URL : require('./env');
+  , mongoose = require('mongoose');
 
-mongoose.connect(env.MONGO_URL);
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI || process.env.MONGOHQ_URI);
 
 var database = require('./models/DatabaseConfig');
 
