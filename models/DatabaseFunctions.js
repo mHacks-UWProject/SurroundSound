@@ -7,14 +7,14 @@ exports.importData = function (jsonArtists) {
 			"artist.getcorrection&artist=";
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
 			"artist.gettoptracks&artist=";
-	var getAPIKey = "&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json"
+	var getAPIKey = "&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	
 	
 	for(var artist in jsonArtists.d) {
 		getCorrection += artist + getAPIKey;
 		
 		request(getCorrection, function (correctionError, correctionResponse, correctionBody) {
-			if (!error && response.statusCode == 200) {
+			if (!correctionError && correctionResponse.statusCode == 200) {
 				
 				var correctedName = correctionBody.corrections.correction.artist.name;
 				
@@ -23,17 +23,17 @@ exports.importData = function (jsonArtists) {
 					getTopTracks += correctedName + getAPIKey;
 					
 					request(getTopTracks, function (topTrackError, topTrackResponse, topTrackBody) {
-						if (!error && response.statusCode == 200) {
+						if (!topTrackError && topTrackResponse.statusCode == 200) {
 							for(var track in topTrackBody.toptracks.track){
-								track.name
+								//track.name
 							}
 						}
-					}
+					});
 				}
 			}
-		}
+		});
 	}
-};
+}
 
 exports.newLounge = function () {
 	var Lounge = mongoose.model('Lounge')
@@ -48,5 +48,5 @@ exports.newUser = function(data) {
 
 
 function databaseContainsArtist(correctedName){
-		
+		return false;
 	}
