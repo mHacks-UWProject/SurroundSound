@@ -16,6 +16,12 @@ mongoose.connect(env.mongo.url);
 
 var database = require('./models/DatabaseConfig');
 
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log("We've opened the floor gates to DATA");
+});
+
 var app = express();
 
 passport.use(new LocalStrategy(
