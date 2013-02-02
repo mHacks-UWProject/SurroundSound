@@ -1,0 +1,22 @@
+extends layout
+
+block head
+  link(rel='stylesheet', href='/stylesheets/new_lounge.css')
+  script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true')
+  script(src='/javascript/new_lounge.js')
+
+block content
+  .container
+    .row
+      form.span10.form-new-lounge(method="POST", action="/login")
+        h2.form-new-lounge-heading Create a new Lounge
+        .row
+          .span4
+            input.input-block-level(type='text', name="username", placeholder='Name')
+            input.input-block-level(type='password', name="password", placeholder='Password (Optional)')
+            input#location.input-block-level(type='text', name="location", placeholder='Location')
+            input#long(type="hidden", name="geolocation[0]")
+            input#lat(type="hidden", name="geolocation[1]")
+            button.btn.btn-large.btn-primary(type='submit') Create Lounge
+          .span6
+            #map_canvas
