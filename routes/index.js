@@ -22,7 +22,7 @@ exports.postRegister = function(req, res) {
 };
 
 exports.dj = function(req,res) {
-	res.send('dj screen placeholder');
+	res.render('dj', { title: 'DJ' });
 }
 
 exports.postArtists = function(req, res){
