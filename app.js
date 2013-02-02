@@ -57,9 +57,17 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+var ensureAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
+
 app.get('/users', user.list);
+app.get('/login', routes.login);
+app.get('/dj', ensureAuthenticated, routes.dj);
 app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failureRedirect: '/login'}));
-app.get('/', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }))
+app.get('/', ensureAuthenticated, routes.index );
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
