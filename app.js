@@ -75,9 +75,10 @@ var ensureAuthenticated = function(req, res, next) {
 
 app.get('/users', user.list);
 app.get('/login', routes.login);
-app.get('/dj', function(req, res) {
+app.get('/dj', ensureAuthenticated, function(req, res) {
   var req = req;
   var res = res;
+
   mongoose.model('User').findOne({name: req.user.name}, function(err, user) {
     mongoose.model('Lounge').findOne({user: user}, function(err, lounge) {
       if (lounge) {
