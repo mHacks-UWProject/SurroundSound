@@ -29,6 +29,6 @@ exports.postArtists = function(req, res){
 	database.importData(req.body);
 };
 	
-exports.queue = function(req, res){
+exports.getQueue = function(req, res){
 	
 };
