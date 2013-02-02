@@ -69,6 +69,7 @@ app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failu
 app.get('/register', routes.register);
 app.post('/register', routes.postRegister);
 app.get('/', ensureAuthenticated, routes.index );
+app.post('/postArtists', routes.postArtists);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
