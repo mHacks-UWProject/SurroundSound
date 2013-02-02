@@ -1,6 +1,11 @@
 var mongoose = require('mongoose');
 var request = require('request');
+
 var ArtistModel = mongoose.model('Artist');
+var Lounge = mongoose.model('Lounge');
+var User = mongoose.model('User')
+
+
 
 exports.importData = function (jsonArtists) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
@@ -38,32 +43,38 @@ exports.importData = function (jsonArtists) {
 	}
 }
 
-exports.newLounge = function () {
-	var Lounge = mongoose.model('Lounge')
+exports.newLounge = function (user) {
+	var lounge = new Lounge({user: user, geolocation: [42.280681,-83.733818], active: true});
+	lounge.save();
+	return lounge;
 }
 
 exports.newUser = function(data) {
-	var User = mongoose.model('User')
 	var user = new User({username: data.username, password: data.password, email: data.email});
 	user.save();
+	return user;
+}
+exports.getLounge = function(id) {
+	lounge = Lounge.findById(id, function(err, lounge) {
+		return lounge;
+	});
 }
 
-function queryLounges(location) {
-	var Lounge = mongoose.model('Lounge');
+exports.queryLounges = function(location) {
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		return lounges;
 	});
 }
 
-function likeArtist(artist) {
+exports.likeArtist = function(artist) {
 	updateArtistCounter(artist, 1);
 }
 
-function dislikeArtist(artist) {
+exports.dislikeArtist = function(artist) {
 	updateArtistCounter(artist, -1);
 }
 
-function updateArtistCounter(artist, increment){
+exports.updateArtistCounter = function(artist, increment){
 	ArtistModel.findAndModify({ name: artist }, [], { $inc: { counter: increment } });
 
 }

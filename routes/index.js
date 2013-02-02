@@ -19,10 +19,14 @@ exports.register = function(req, res) {
 };
 
 exports.createUser = function(req, res) {
-	database.newUser(req.body);
+	var user = database.newUser({username: req.body.username, password: req.body.password, email: req.body.email});
+	database.newLounge(user);
 };
 
+
 exports.dj = function(req,res) {
+	var User = mongoose.model("User");
+	var user = User.update({name: req.user.name}, {active: true});
 	res.render('dj', { title: 'DJ' });
 };
 
@@ -30,7 +34,7 @@ exports.postArtists = function(req, res){
 	database.importData(req.body);
 };
 	
-exports.getQueue = function(req, res){
+exports.getLounge = function(req, res){
 	
 };
 
