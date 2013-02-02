@@ -39,7 +39,7 @@ exports.importData = function (jsonArtists) {
 }
 
 exports.newLounge = function () {
-	var Lounge = mongoose.model('Lounge')
+	var Lounge = mongoose.model('Lounge');
 }
 
 exports.newUser = function(data) {
@@ -52,6 +52,13 @@ function queryLounges(location) {
 	var Lounge = mongoose.model('Lounge');
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		return lounges;
+	});
+}
+
+function queryLoungeInformation(loungeId){
+	var Lounge = mongoose.model('Lounge');
+	Lounge.find({_id: loungeId}, function(err, lounge){ 
+		return lounge;
 	});
 }
 
