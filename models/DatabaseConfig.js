@@ -4,7 +4,7 @@ var UserSchema = mongoose.Schema({
 	name: String,
 	password: String,
 	email: String,
-	lounge: LoungeSchema
+	lounge: [LoungeSchema]
 	});
 	
 var ArtistSchema = mongoose.Schema({
