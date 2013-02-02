@@ -64,8 +64,10 @@ exports.queryLounges = function(location, res) {
 	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		console.log("lounges log", lounges);
-		if (err) console.log(err);
-		else {
+		if (err){
+			console.log(err);
+			res.send("NONE FOUND");
+		} else {
 			for (var i = 0; i < lounges.length; i++) {
 				//if (lounges.active)
 				actives.push(lounges[i]);
