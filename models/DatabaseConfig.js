@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId
 
+
 	
 var ArtistSchema = mongoose.Schema({
 	name: String,
@@ -23,7 +24,7 @@ var LoungeSchema = mongoose.Schema({
 	});
 
 var UserSchema = mongoose.Schema({
-	name: String,
+	username: String,
 	password: String,
 	email: String,
 	lounge: ObjectId
