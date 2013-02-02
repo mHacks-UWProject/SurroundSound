@@ -27,7 +27,7 @@ exports.createUser = function(req, res) {
 		database.newLounge(user);
 		req.login(user, function(err) {
 			if (err) return next(err); 
-			return res.redirect('/newLounge');
+			return res.redirect('/createLounge');
 		});
 	} else {
 		res.send(400);
