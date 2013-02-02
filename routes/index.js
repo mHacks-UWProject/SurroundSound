@@ -13,6 +13,10 @@ exports.postArtists = function(req, res){
 	database.importData(req.body);
 	};
 	
-exports.Queue = function(req, res){
+exports.queue = function(req, res){
 	
 	};
+
+exports.login = function(req, res) {
+
+};
