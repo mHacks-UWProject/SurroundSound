@@ -2,7 +2,8 @@
 /*
  * GET home page.
  */
- 
+
+var databaseConfig = require("../models/DatabaseConfig.js") 
 var database = require("../models/DatabaseFunctions.js")
 
 exports.index = function(req, res){
