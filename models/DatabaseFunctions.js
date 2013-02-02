@@ -1,35 +1,38 @@
 var mongoose = require('mongoose');
 var request = require('request');
+var ArtistModel = mongoose.model('Artist');
 
 exports.importData = function (jsonArtists) {
-	
-	var getCorrection = "http://ws.audioscrobbler.com/2.0/?method=" +
-			"artist.getcorrection&artist=";
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
 			"artist.gettoptracks&artist=";
-	var getAPIKey = "&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
+	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	
 	
 	for(var artist in jsonArtists.d) {
 		getCorrection += artist + getAPIKey;
 		
-		request(getCorrection, function (correctionError, correctionResponse, correctionBody) {
-			if (!correctionError && correctionResponse.statusCode == 200) {
+		request(getTopTracks, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
 				
-				var correctedName = correctionBody.corrections.correction.artist.name;
+				var correctedName = body.toptracks.track[0].artist.name;
+				var genre = [];
+				var topTracks = [];
 				
-				if(!databaseContainsArtist(correctedName))
-				{
-					getTopTracks += correctedName + getAPIKey;
-					
-					request(getTopTracks, function (topTrackError, topTrackResponse, topTrackBody) {
-						if (!topTrackError && topTrackResponse.statusCode == 200) {
-							for(var track in topTrackBody.toptracks.track){
-								//track.name
-							}
-						}
-					});
+				for(var track in body.toptracks.track){
+					topTracks.push(track.name);
 				}
+				
+				// push to db
+				var artist = new ArtistModel({
+					name: correctedName,
+					genre: genre,
+					topSongs: topTracks
+				});
+				
+				ArtistModel.update({ _id: artist.id}, 
+					{name: artist.name, genre: artist.genre, topSoungs: artis.topSongs}, 
+					{upsert: true});
+				
 			}
 		});
 	}
@@ -40,13 +43,7 @@ exports.newLounge = function () {
 }
 
 exports.newUser = function(data) {
-	var User = mongoose.model('UserModel')
+	var User = mongoose.model('User')
 	var user = new User({username: data.username, password: data.password, email: data.email});
 	user.save();
 }
-
-
-
-function databaseContainsArtist(correctedName){
-		return false;
-	}
