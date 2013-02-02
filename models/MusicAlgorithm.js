@@ -8,6 +8,8 @@ exports.getNextSong = function(){
 	//if selecting requested item or not
 	if(randNum == 0){
 		
+		var Lounge = mongoose.model('Lounge');
+		var requestedItem = Lounge.findOne({ request: true });
 		
 		
 		

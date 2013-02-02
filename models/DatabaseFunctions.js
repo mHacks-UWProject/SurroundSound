@@ -117,13 +117,15 @@ exports.popAndUpdateQueue = function(){
 	}
 	else {
 		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
-			//queueResults.
-			
-			
-			
-			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: (MAX_QUEUE_ITEMS-1) });
-			queueItem.save();
+			if(queueResults[i].position == 0) {
+				queueResults[i].remove();
+			}
+			else {
+				queueResults[i].position -= 1;
+			}
 		}
+		var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: (MAX_QUEUE_ITEMS-1) });
+		queueItem.save();
 	}	
 	
 }
