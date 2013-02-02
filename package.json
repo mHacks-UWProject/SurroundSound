@@ -12,7 +12,8 @@
     "mongoose": "*",
     "passport": "*",
     "passport-local": "*",
-    "request": "*"
+    "request": "*",
+    "node-gcm": "*"
   },
   "engines": {
     "node": "0.8.x",

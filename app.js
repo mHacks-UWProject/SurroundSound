@@ -11,7 +11,7 @@ var express = require('express')
   , LocalStrategy = require('passport-local').Strategy
   , mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGOHQ_URL);
+mongoose.connect(process.env.MONGOHQ_URL || "mongodb://localhost/test");
 
 var database = require('./models/DatabaseConfig');
 

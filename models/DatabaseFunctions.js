@@ -47,7 +47,7 @@ exports.importData = function (jsonArtists) {
 }
 
 exports.newLounge = function (user) {
-	var lounge = new Lounge({user: user, geolocation: [42.280681,-83.733818], active: true});
+	var lounge = new Lounge({user: user.id, geolocation: [42.280681,-83.733818], active: true});
 	lounge.save();
 	return lounge;
 }
@@ -67,16 +67,19 @@ exports.queryLounges = function(location) {
 	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		for (var i =0; i < lounges.length; i++) {
-			if (lounges[i].user.active)
-				actives.push(lounges[i])
+			User.findById(lounges[i].user.id, function(err, user) {
+				if (lounges[i].user.active)
+					actives.push(lounges[i])
+				if (i == lounges.length - 1)
+					return actives;
+			})
 		}
-		return actives;
 	});
 }
 
 exports.queryLoungeInformation = function(loungeId){
 	var Lounge = mongoose.model('Lounge');
-	Lounge.find({_id: loungeId}, function(err, lounge){ 
+	Lounge.findById(loungeId, function(err, lounge){ 
 		return lounge;
 	});
 }
