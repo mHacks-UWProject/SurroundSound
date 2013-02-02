@@ -50,3 +50,10 @@ exports.newUser = function(data) {
 function databaseContainsArtist(correctedName){
 		return false;
 	}
+
+function queryLounges(location) {
+	var Lounge - mongoose.model('Lounge');
+	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges)) {
+		return lounges;
+	}
+}

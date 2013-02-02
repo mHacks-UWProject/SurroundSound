@@ -34,5 +34,6 @@ exports.getQueue = function(req, res){
 };
 
 exports.queryLounges = function(req, res) {
-	res.send('fuck off')
+	var lounges = database.queryLounges(req.body.geo);
+	res.send(lounges);
 }
