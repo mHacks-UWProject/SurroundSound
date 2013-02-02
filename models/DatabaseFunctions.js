@@ -60,25 +60,21 @@ exports.getLounge = function(id) {
 	});
 }
 
-function databaseContainsArtist(correctedName){
-	return false;
-}
-
 exports.queryLounges = function(location) {
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		return lounges;
 	});
 }
 
-function likeArtist(artist) {
+exports.likeArtist = function(artist) {
 	updateArtistCounter(artist, 1);
 }
 
-function dislikeArtist(artist) {
+exports.dislikeArtist = function(artist) {
 	updateArtistCounter(artist, -1);
 }
 
-function updateArtistCounter(artist, increment){
+exports.updateArtistCounter = function(artist, increment){
 	ArtistModel.findAndModify({ name: artist }, [], { $inc: { counter: increment } });
 
 }
