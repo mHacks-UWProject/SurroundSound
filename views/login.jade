@@ -5,7 +5,7 @@ block head
 
 block content
   .container
-      form.form-signin
+      form.form-signin(method="POST", action="/login")
           h2.form-signin-heading Please sign in
           input.input-block-level(type='text', placeholder='Email address')
           input.input-block-level(type='password', placeholder='Password')
