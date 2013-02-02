@@ -1,0 +1,45 @@
+extends layout
+
+block head
+  link(rel='stylesheet', href='/stylesheets/vendor/jquery-ui-1.10.0.custom.min.css')
+  script(src='/javascript/dj.js')
+  script(src='/javascript/vendor/jquery-ui-1.10.0.custom.min.js')
+
+block content
+  .container
+    .row
+      .span12
+        h1 Surround Sound
+        h3 Lounge Name
+    .row
+      .span6
+        .well.well-small
+          .song
+            img.coverart-large.img-rounded.img-polaroid(src="http://www.progarchives.com/progressive_rock_discography_covers/1199/cover_5110910112009.jpg")
+            .title Lateralus
+            .artist Tool
+    .row
+      .span6
+        h4 Queue
+        ul#queue
+          li
+            span.ui-icon.ui-icon-arrowthick-2-n-s
+            .well.well-small
+              .song
+                img.coverart-large.img-rounded.img-polaroid(src="http://www.progarchives.com/progressive_rock_discography_covers/1199/cover_5110910112009.jpg")
+                .title Lateralus
+                .artist Tool
+          li
+            span.ui-icon.ui-icon-arrowthick-2-n-s
+            .well.well-small
+              .song
+                img.coverart-large.img-rounded.img-polaroid(src="http://www.progarchives.com/progressive_rock_discography_covers/1199/cover_5110910112009.jpg")
+                .title Lateralus
+                .artist Tool2
+          li
+            span.ui-icon.ui-icon-arrowthick-2-n-s
+            .well.well-small
+              .song
+                img.coverart-large.img-rounded.img-polaroid(src="http://www.progarchives.com/progressive_rock_discography_covers/1199/cover_5110910112009.jpg")
+                .title Lateralus
+                .artist Tool2
