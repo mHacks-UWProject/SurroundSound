@@ -4,6 +4,9 @@ block head
   link(rel='stylesheet', href='/stylesheets/vendor/jquery-ui-1.10.0.custom.min.css')
   script(src='/javascript/dj.js')
   script(src='/javascript/vendor/jquery-ui-1.10.0.custom.min.js')
+  script(src='http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js')
+  script(src='/javascript/vendor/jquery.youtube.player.min.js')
+
 
 block content
   .container
@@ -13,6 +16,10 @@ block content
         h3 Lounge Name
     .row
       .span6
+        #player
+          .youtube-player-video
+            .youtube-player-object You need Flash player 8+ and JavaScript enabled.
+
         .well.well-small
           .song
             img.coverart-large.img-rounded.img-polaroid(src="http://www.progarchives.com/progressive_rock_discography_covers/1199/cover_5110910112009.jpg")
