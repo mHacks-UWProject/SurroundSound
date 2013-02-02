@@ -19,7 +19,9 @@ var LoungeSchema = new mongoose.Schema({
 	loungePassword: String,
 	artists: [{ type: Schema.Types.ObjectId, ref: 'Artists' }]
 	});
+
 LoungeSchema.ensureIndex({geolocation: "2d"})
 var UserModel = new mongoose.model('User', UserSchema);
 var ArtistModel = new mongoose.model('Artist', ArtistSchema);
 var LoungeModel = new mongoose.model('Lounge', LoungeSchema);
+	
