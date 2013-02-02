@@ -9,7 +9,10 @@ var express = require('express')
   , path = require('path')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , env = require('./env');
+
+mongoose.connect(env.mongo.url);
 
 var app = express();
 
