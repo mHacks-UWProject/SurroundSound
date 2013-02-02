@@ -60,7 +60,7 @@ exports.getLounge = function(id) {
 	});
 }
 
-exports.queryLounges = function(location) {
+exports.queryLounges = function(location, res) {
 	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		console.log("lounges log", lounges);
@@ -70,7 +70,7 @@ exports.queryLounges = function(location) {
 				//if (lounges.active)
 				actives.push(lounges[i]);
 			};
-			return actives;
+			res.send(actives);
 		};
 	});
 }
