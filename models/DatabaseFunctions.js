@@ -53,8 +53,8 @@ function databaseContainsArtist(correctedName){
 }
 
 function queryLounges(location) {
-	var Lounge - mongoose.model('Lounge');
-	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges)) {
+	var Lounge = mongoose.model('Lounge');
+	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		return lounges;
-	}
+	});
 }
