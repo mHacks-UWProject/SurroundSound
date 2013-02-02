@@ -21,9 +21,9 @@ var LoungeSchema = mongoose.Schema({
 	name: String,
 	geolocation: {type: [Number], index:'2d'},
 	user: [UserSchema],
+	queue: ['string'],
 	loungePassword: String,
-	artists: [ArtistSchema],
-	artists: [UserSchema]
+	artists: [ArtistSchema]
 	});
 
 
