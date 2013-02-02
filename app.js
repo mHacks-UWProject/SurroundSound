@@ -14,6 +14,8 @@ var express = require('express')
 
 mongoose.connect(env.mongo.url);
 
+var database = require('./models/DatabaseConfig');
+
 var app = express();
 
 passport.use(new LocalStrategy(
