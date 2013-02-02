@@ -17,13 +17,13 @@ exports.register = function(req, res) {
   res.render('register', { title: 'Register' });
 };
 
-exports.postRegister = function(req, res) {
-  // TODO: Implement
+exports.createUser = function(req, res) {
+	database.newUser(req.body);
 };
 
 exports.dj = function(req,res) {
 	res.render('dj', { title: 'DJ' });
-}
+};
 
 exports.postArtists = function(req, res){
 	database.importData(req.body);
@@ -31,4 +31,7 @@ exports.postArtists = function(req, res){
 	
 exports.getQueue = function(req, res){
 	
+};
+exports.register = function(req, res) {
+	res.send('register placeholder')
 };

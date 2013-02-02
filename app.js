@@ -8,13 +8,14 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+  , LocalStrategy = require('passport-local').Strategy
+  , mongoose = require('mongoose');
 
 var app = express();
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    User.findOne({ name: username, pass: password}, function (err, user) {
+    mongoose.model('UserModel').findOne({ name: username, pass: password}, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
@@ -32,7 +33,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
+  mongoose.model('UserModel').findById(id, function(err, user) {
     done(err, user);
   });
 });
@@ -67,9 +68,10 @@ app.get('/login', routes.login);
 app.get('/dj', ensureAuthenticated, routes.dj);
 app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failureRedirect: '/login'}));
 app.get('/register', routes.register);
-app.post('/register', routes.postRegister);
 app.get('/', ensureAuthenticated, routes.index );
 app.post('/postArtists', routes.postArtists);
+app.get('/register', routes.register);
+app.post('/register', routes.createUser);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
