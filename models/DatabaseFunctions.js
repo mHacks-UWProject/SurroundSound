@@ -61,8 +61,13 @@ exports.getLounge = function(id) {
 }
 
 exports.queryLounges = function(location) {
+	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
-		return lounges;
+		for (var i =0; i < lounges.length; i++) {
+			if (lounges[i].user.active)
+				actives.push(lounges[i])
+		}
+		return actives;
 	});
 }
 

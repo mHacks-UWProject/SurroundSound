@@ -21,6 +21,10 @@ exports.register = function(req, res) {
 exports.createUser = function(req, res) {
 	var user = database.newUser({username: req.body.username, password: req.body.password, email: req.body.email});
 	database.newLounge(user);
+	req.login(user, function(err) {
+		if (err) return next(err); 
+		return res.redirect('/createLounge');
+	});
 };
 
 

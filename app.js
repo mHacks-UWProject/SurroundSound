@@ -75,12 +75,24 @@ var ensureAuthenticated = function(req, res, next) {
 
 app.get('/users', user.list);
 app.get('/login', routes.login);
-app.get('/dj', routes.dj);
-app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failureRedirect: '/login'}));
+app.get('/dj', function(req, res) {
+  var req = req;
+  var res = res;
+  mongoose.model('User').findOne({name: req.user.name}, function(err, user) {
+    mongoose.model('Lounge').findOne({user: user}, function(err, lounge) {
+      if (lounge) {
+        routes.dj;
+      }
+      else {
+        routes.createLounge;
+      }
+    })
+  })
+});
 app.get('/register', routes.register);
 app.get('/', ensureAuthenticated, routes.index );
+app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failureRedirect: '/login'}));
 app.post('/postArtists', routes.postArtists);
-app.get('/register', routes.register);
 app.post('/register', routes.createUser);
 app.post('/queryLounges', routes.queryLounges)
 
