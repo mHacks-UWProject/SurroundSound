@@ -5,7 +5,6 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
-  , dj = require('./routes/dj')
   , http = require('http')
   , path = require('path')
   , passport = require('passport')
@@ -68,9 +67,11 @@ app.get('/users', user.list);
 app.get('/login', routes.login);
 app.get('/dj', ensureAuthenticated, routes.dj);
 app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failureRedirect: '/login'}));
+app.get('/register', routes.register);
 app.get('/', ensureAuthenticated, routes.index );
 app.get('/register', routes.register);
 app.post('/register', routes.createUser);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

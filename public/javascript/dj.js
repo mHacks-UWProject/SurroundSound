@@ -1,3 +1,7 @@
 $(function(){
-	$( "#queue" ).sortable();
+	$("#queue").sortable();
+
+	$("#add-song").click(function(){
+		
+	});
 });

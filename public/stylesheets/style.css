@@ -8,20 +8,24 @@ a {
 }
 
 .coverart-large {
-	height: 75px;
-	width: 75px;
+	height: 50px;
+	width: 50px;
 }
 
 .song {
-	height: 85px;
+	height: 60px;
 }
-.song .coverart-large {
-	float: left;
-	margin-right: 20px;
-}
-.song .title {
-	font-weight: bold;
-}
+	.song .coverart-large {
+		float: left;
+		margin-right: 20px;
+	}
+	.song .title {
+		font-weight: bold;
+	}
+	.song .progress {
+		margin-top: 5px;
+		height: 10px;
+	}
 
 #queue {
 	margin: 0;

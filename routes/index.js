@@ -6,14 +6,24 @@
 var database = require("../models/DatabaseFunctions.js")
 
 exports.index = function(req, res){
-  	res.render('index', { title: 'Express' });
+  res.render('dj', { title: 'DJ Stuff' });
 };
+
 exports.login = function(req, res) {
-	res.send("login screen placeholder");
+  res.render('login', { title: 'Login' });
 };
+
+exports.register = function(req, res) {
+  res.render('register', { title: 'Register' });
+};
+
+exports.createUser = function(req, res) {
+	database.newUser(req.body);
+};
+
 exports.dj = function(req,res) {
-	res.send('dj screen placeholder');
-}
+	res.render('dj', { title: 'DJ' });
+};
 
 exports.postArtists = function(req, res){
 	database.importData(req.body);
@@ -22,12 +32,6 @@ exports.postArtists = function(req, res){
 exports.queue = function(req, res){
 	
 };
-exports.index = function(req, res){
-  res.render('dj', { title: 'DJ Stuff' });
-};
 exports.register = function(req, res) {
 	res.send('register placeholder')
-}
-exports.createUser = function(req, res) {
-	database.newUser(req.body);
-}
+};

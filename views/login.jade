@@ -1,0 +1,16 @@
+extends layout
+
+block head
+  link(rel='stylesheet', href='/stylesheets/login.css')
+
+block content
+  .container
+      form.form-signin(method="POST", action="/login")
+          h2.form-signin-heading Please sign in
+          input.input-block-level(type='text', placeholder='Email address')
+          input.input-block-level(type='password', placeholder='Password')
+          label.checkbox
+            input(type='checkbox', value='remember-me')
+            | Remember me
+          button.btn.btn-large.btn-primary(type='submit') Sign in
+          a.btn.btn-large(href='/register') Register
