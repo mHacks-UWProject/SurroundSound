@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
 var request = require('request');
+var musicAlgorithm = require('MusicAlgorithm');
 
 var ArtistModel = mongoose.model('Artist');
 var Lounge = mongoose.model('Lounge');
 var User = mongoose.model('User')
+
+var MAX_QUEUE_ITEMS = 5;
 
 exports.importData = function (jsonArtists) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
@@ -92,5 +95,35 @@ function updateArtistCounter (artist, increment){
 
 exports.recommendSong = function(songJson) {
 		
+	
+}
+
+exports.popAndUpdateQueue(){
+	var Queue = mongoose.model('Queue');
+	var nextSong = musicAlgorithm.getNextSong();
+	var queueResults;
+	Queue.find(null, function(err, res){ 
+		queueResults = res;
+	});
+	
+	if(queueResults.length() == 0) {
+		for(int i = 0; i < MAX_QUEUE_ITEMS; i++) {
+			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: i });
+			queueItem.save();
+		}
+	}
+	else {
+		for(int i = 0; i < MAX_QUEUE_ITEMS; i++) {
+			//queueResults.
+			
+			
+			
+			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: (MAX_QUEUE_ITEMS-1) });
+			queueItem.save();
+		}
+	}
+	
+	
+	
 	
 }

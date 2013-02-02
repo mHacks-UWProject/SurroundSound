@@ -1,5 +1,11 @@
 var mongoose = require('mongoose');
 
+var QueueSchema = mongoose.Schema({
+	artist: [ArtistSchema],
+	track: String,
+	position: Number
+	});
+	
 var UserSchema = mongoose.Schema({
 	name: String,
 	password: String,
@@ -33,3 +39,4 @@ LoungeSchema.index({geolocation: "2d"});
 mongoose.model('User', UserSchema);
 mongoose.model('Artist', ArtistSchema);
 mongoose.model('Lounge', LoungeSchema);
+mongoose.model('Queue', QueueSchema);
