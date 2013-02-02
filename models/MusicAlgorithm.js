@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var RAND_MAX = 5;
 
-exports.getNextSong(){
+exports.getNextSong = function(){
 	// get random number
 	var randNum = Math.floor(Math.random()*RAND_MAX);
 	
@@ -24,16 +24,16 @@ exports.getNextSong(){
 
 
 
-exports.newUser(loungeId, clientId){
+exports.newUser = function(loungeId, clientId){
 	
 	
 }
 
-exports.newLike(loungeId, clientId){
+exports.newLike = function(loungeId, clientId){
 	handleRequest(loungeId, clientId);
 }
 
-exports.newDislike(loungeId, clientId){
+exports.newDislike = function(loungeId, clientId){
 	handleRequest(loungeId, clientId);
 }
 
@@ -42,11 +42,11 @@ function handleFeedback(loungeId, clientId){
 	
 }
 
-exports.newRequest(loungeId, clientId, request){
+exports.newRequest = function(loungeId, clientId, request){
 	
 	var Lounge = mongoose.model('Lounge');
-	Lounge.find({_id: loungeId}}, function(err, lounge){ 
-		lounge.find({}, function()){
+	Lounge.find({_id: loungeId}, function(err, lounge){ 
+		lounge.find({}, function(){
 			
 			
 			

@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var request = require('request');
-var musicAlgorithm = require('MusicAlgorithm');
+var musicAlgorithm = require('../models/MusicAlgorithm.js');
 
 var ArtistModel = mongoose.model('Artist');
 var Lounge = mongoose.model('Lounge');
@@ -101,7 +101,7 @@ exports.recommendSong = function(songJson) {
 	
 }
 
-exports.popAndUpdateQueue(){
+exports.popAndUpdateQueue = function(){
 	var Queue = mongoose.model('Queue');
 	var nextSong = musicAlgorithm.getNextSong();
 	var queueResults;
@@ -110,13 +110,13 @@ exports.popAndUpdateQueue(){
 	});
 	
 	if(queueResults.length() == 0) {
-		for(int i = 0; i < MAX_QUEUE_ITEMS; i++) {
+		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
 			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: i });
 			queueItem.save();
 		}
 	}
 	else {
-		for(int i = 0; i < MAX_QUEUE_ITEMS; i++) {
+		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
 			//queueResults.
 			
 			
@@ -124,9 +124,6 @@ exports.popAndUpdateQueue(){
 			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: (MAX_QUEUE_ITEMS-1) });
 			queueItem.save();
 		}
-	}
-	
-	
-	
+	}	
 	
 }
