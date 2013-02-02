@@ -12,7 +12,8 @@ var ArtistSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
 	name: String,
 	genre: [String],
-	topSongs: [String]
+	topSongs: [String],
+	count: Number
 	});
 
 var LoungeSchema = mongoose.Schema({
