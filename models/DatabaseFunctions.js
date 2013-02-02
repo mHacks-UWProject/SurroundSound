@@ -47,3 +47,14 @@ exports.newUser = function(data) {
 	var user = new User({username: data.username, password: data.password, email: data.email});
 	user.save();
 }
+
+function databaseContainsArtist(correctedName){
+		return false;
+}
+
+function queryLounges(location) {
+	var Lounge = mongoose.model('Lounge');
+	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
+		return lounges;
+	});
+}

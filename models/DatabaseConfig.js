@@ -25,6 +25,7 @@ var LoungeSchema = mongoose.Schema({
 	artists: [UserSchema]
 	});
 
+
 LoungeSchema.index({geolocation: "2d"});
 
 mongoose.model('User', UserSchema);
