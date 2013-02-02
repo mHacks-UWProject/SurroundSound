@@ -8,7 +8,7 @@ block head
 block content
   .container
     .row
-      form.span10.form-new-lounge(method="POST", action="/login")
+      form.span8.form-new-lounge(method="POST", action="/login")
         h2.form-new-lounge-heading Create a new Lounge
         .row
           .span4
@@ -18,5 +18,5 @@ block content
             input#long(type="hidden", name="geolocation[0]")
             input#lat(type="hidden", name="geolocation[1]")
             button.btn.btn-large.btn-primary(type='submit') Create Lounge
-          .span6
+          .span4
             #map_canvas
