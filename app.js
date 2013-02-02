@@ -12,7 +12,7 @@ var express = require('express')
   , mongoose = require('mongoose')
   , env = require('./env');
 
-mongoose.connect(env.mongo.url);
+mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : env.mongo.url);
 
 var database = require('./models/DatabaseConfig');
 
@@ -76,7 +76,7 @@ var ensureAuthenticated = function(req, res, next) {
 
 app.get('/users', user.list);
 app.get('/login', routes.login);
-app.get('/dj', ensureAuthenticated, routes.dj);
+app.get('/dj', routes.dj);
 app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failureRedirect: '/login'}));
 app.get('/register', routes.register);
 app.get('/', ensureAuthenticated, routes.index );
