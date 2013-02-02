@@ -1,27 +1,27 @@
 var mongoose = require('mongoose');
 
 var UserSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
 	name: String,
 	password: String,
 	email: String,
-	lounge: [LoungeSchema]
+	lounge: LoungeSchema
 	});
 	
 var ArtistSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
 	name: String,
 	genre: [String],
 	topSongs: [String],
-	count: Number
+	count: Number,
+	likes: Number,
+	dislikes: Number,
+	request: Boolean
 	});
 
 var LoungeSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
 	name: String,
 	geolocation: {type: [Number], index:'2d'},
 	user: [UserSchema],
-	queue: ['string'],
+	queue: [String],
 	loungePassword: String,
 	artists: [ArtistSchema],
 	requested: [{song:String, artist:String}]

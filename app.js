@@ -94,7 +94,9 @@ app.get('/', ensureAuthenticated, routes.index );
 app.post('/login', passport.authenticate('local', {successRedirect: '/dj', failureRedirect: '/login'}));
 app.post('/postArtists', routes.postArtists);
 app.post('/register', routes.createUser);
-app.post('/queryLounges', routes.queryLounges)
+app.get('/createLounge', routes.newLounge);
+app.post('/createLounge', routes.createLounge);
+app.post('/queryLounges', routes.queryLounges);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

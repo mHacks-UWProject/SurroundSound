@@ -32,9 +32,11 @@ exports.importData = function (jsonArtists) {
 					topSongs: topTracks
 				});
 				
-				ArtistModel.update({ _id: artist.id}, 
+				ArtistModel.update({ name: artist.name}, 
 					{name: artist.name, genre: artist.genre, topSoungs: artis.topSongs}, 
 					{upsert: true});
+					
+				updateArtistCounter(artist.name, 1);
 				
 			}
 		});
@@ -84,8 +86,11 @@ exports.dislikeArtist = function(artist) {
 	updateArtistCounter(artist, -1);
 }
 
-exports.updateArtistCounter = function(artist, increment){
+function updateArtistCounter (artist, increment){
 	ArtistModel.findAndModify({ name: artist }, [], { $inc: { counter: increment } });
-
 }
+
+exports.recommendSong = function(songJson) {
+		
 	
+}

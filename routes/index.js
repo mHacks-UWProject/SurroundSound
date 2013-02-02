@@ -37,7 +37,17 @@ exports.dj = function(req,res) {
 exports.postArtists = function(req, res){
 	database.importData(req.body);
 };
-	
+
+exports.newLounge = function(req, res){
+  res.render('new_lounge', { title: 'Create your Sound Lounge'});
+};
+
+exports.createLounge = function(req, res){
+	// do some data checks
+  // save data
+  // redirect to /dj
+};
+
 exports.getLounge = function(req, res){
 	
 };
