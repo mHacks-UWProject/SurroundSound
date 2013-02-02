@@ -67,8 +67,8 @@ exports.queryLounges = function(location) {
 		if (err) console.log(err);
 		else {
 			for (var i = 0; i < lounges.length; i++) {
-				if (lounges.active)
-					actives.push(lounges[i]);
+				//if (lounges.active)
+				actives.push(lounges[i]);
 			};
 			return actives;
 		};
