@@ -5,8 +5,6 @@ var ArtistModel = mongoose.model('Artist');
 var Lounge = mongoose.model('Lounge');
 var User = mongoose.model('User')
 
-
-
 exports.importData = function (jsonArtists) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
 			"artist.gettoptracks&artist=";
@@ -66,7 +64,7 @@ exports.queryLounges = function(location) {
 	});
 }
 
-function queryLoungeInformation(loungeId){
+exports.queryLoungeInformation = function(loungeId){
 	var Lounge = mongoose.model('Lounge');
 	Lounge.find({_id: loungeId}, function(err, lounge){ 
 		return lounge;
