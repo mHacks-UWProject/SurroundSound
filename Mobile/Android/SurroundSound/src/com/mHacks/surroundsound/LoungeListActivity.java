@@ -22,8 +22,8 @@ import android.widget.Toast;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.mHacks.surroundsound.models.LoungeObject;
-import com.mHacks.surroundsound.utils.CustomAdapter;
+import com.mHacks.surroundsound.models.LoungeObect;
+import com.mHacks.surroundsound.utils.LoungeListAdapter;
 import com.mHacks.surroundsound.utils.MyLocationListener;
 import com.mHacks.surroundsound.web.AsyncHttpPost;
 
@@ -33,7 +33,7 @@ public class LoungeListActivity extends Activity {
 
 	private Context c;
 	
-	private ArrayList<LoungeObject> x = new ArrayList<LoungeObject>();
+	private ArrayList<LoungeObect> x = new ArrayList<LoungeObect>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +47,17 @@ public class LoungeListActivity extends Activity {
 		pullToRefreshView = (PullToRefreshListView) findViewById(R.id.listView1);
 
 		for (int i = 0; i < 20; i++) {
-			x.add(new LoungeObject());
+			x.add(new LoungeObect());
 			x.get(i).setLoungeName("Blah");
 			x.get(i).setLoungePlaying("Das Playing");
 			x.get(i).setLoungeLocked(false);
 			x.get(i).setLoungeId("THS IS FAK ID");
-
 		}
 		
 
 		testPushGeo();
 
-		CustomAdapter adapter = new CustomAdapter(this,
+		LoungeListAdapter adapter = new LoungeListAdapter(this,
 				R.layout.loungelist_object, x);
 
 		pullToRefreshView.getRefreshableView().setAdapter(adapter);
