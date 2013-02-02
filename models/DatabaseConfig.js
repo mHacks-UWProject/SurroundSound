@@ -20,6 +20,6 @@ var LoungeSchema = new mongoose.Schema({
 	artists: [{ type: Schema.Types.ObjectId, ref: 'Artists' }]
 	});
 	
-var UserModel = new mongoose.model('UserModel', UserSchema);
-var ArtistModel = new mongoose.model('ArtistModel', ArtistSchema);
-var LoungeModel = new mongoose.model('LoungeModel', LoungeSchema);
+var User = new mongoose.model('UserModel', UserSchema);
+var Artist = new mongoose.model('ArtistModel', ArtistSchema);
+var Lounge = new mongoose.model('LoungeModel', LoungeSchema);
