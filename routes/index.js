@@ -57,7 +57,7 @@ exports.createLounge = function(req, res){
 	});
 };
 exports.updateLounge = function(req, res) {
-	Lounge.update({user: req.user.id}, {req.body});
+	Lounge.update({user: req.user.id}, req.body);
 }
 exports.getLounge = function(req, res){
 	 Lounge.findById(req.body.id, function(err, lounge) {
@@ -78,7 +78,7 @@ exports.requestSong = function(req, res) {
 	})
 }
 
-express.registerGCM = function(req, res) {
+exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
 	if (req.body['genId'] != "") {
 		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
