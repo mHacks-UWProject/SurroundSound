@@ -6,3 +6,30 @@ body {
 a {
   color: #00B7FF;
 }
+
+.coverart-large {
+	height: 75px;
+	width: 75px;
+}
+
+.song {
+	height: 85px;
+}
+.song .coverart-large {
+	float: left;
+	margin-right: 20px;
+}
+.song .title {
+	font-weight: bold;
+}
+
+#queue {
+	margin: 0;
+}
+#queue li {
+	margin: 0;
+	list-style: none;
+}
+#queue li .well {
+	margin-bottom: 0;
+}

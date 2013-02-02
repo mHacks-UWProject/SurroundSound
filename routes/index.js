@@ -22,3 +22,6 @@ exports.postArtists = function(req, res){
 exports.queue = function(req, res){
 	
 };
+exports.index = function(req, res){
+  res.render('dj', { title: 'DJ Stuff' });
+};

@@ -2,6 +2,16 @@ doctype 5
 html
   head
     title= title
+    
+    link(rel='stylesheet', href='/stylesheets/vendor/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+
+    script(src='/javascript/vendor/bootstrap.min.js')
+    script(src='/javascript/vendor/jquery-1.9.0.min.js')
+    script(src='/javascript/vendor/modernizr-2.6.2-respond-1.1.0.min.js')
+
+    script(src='/javascript/main.js')
+
+    block head
   body
     block content
