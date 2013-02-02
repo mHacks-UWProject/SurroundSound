@@ -20,6 +20,7 @@ var LoungeSchema = mongoose.Schema({
 	geolocation: {type: ['number'], index:'2d'},
 	user: [UserSchema],
 	loungePassword: 'string',
+	queue: ['string'],
 	artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artists' }]
 	});
 

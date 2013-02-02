@@ -1,6 +1,11 @@
 var mongoose = require('mongoose');
 var request = require('request');
+
 var ArtistModel = mongoose.model('Artist');
+var Lounge = mongoose.model('Lounge');
+var User = mongoose.model('User')
+
+
 
 exports.importData = function (jsonArtists) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
@@ -38,14 +43,21 @@ exports.importData = function (jsonArtists) {
 	}
 }
 
-exports.newLounge = function () {
-	var Lounge = mongoose.model('Lounge')
+exports.newLounge = function (user) {
+	var lounge = new Lounge({user: user, geolocation: [42.280681,-83.733818], active: true});
+	lounge.save();
+	return lounge;
 }
 
 exports.newUser = function(data) {
-	var User = mongoose.model('User')
 	var user = new User({username: data.username, password: data.password, email: data.email});
 	user.save();
+	return user;
+}
+exports.getQueue = function(id) {
+	lounge = Lounge.find(_id: id);
+	return lounge.queue;
+
 }
 
 function databaseContainsArtist(correctedName){
@@ -53,7 +65,6 @@ function databaseContainsArtist(correctedName){
 }
 
 function queryLounges(location) {
-	var Lounge = mongoose.model('Lounge');
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		return lounges;
 	});
