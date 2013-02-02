@@ -63,13 +63,16 @@ exports.getLounge = function(id) {
 exports.queryLounges = function(location) {
 	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
-		for (var i =0; i < lounges.length; i++) {
-			User.findById(lounges[i].user.id, function(err, user) {
-				if (lounges[i].user.active)
-					actives.push(lounges[i])
-				if (i == lounges.length - 1)
-					return actives;
-			})
+		if (err) console.log(err);
+		else {
+			for (var i =0; i < lounges.length; i++) {
+				User.findById(lounges[i].user.id, function(err, user) {
+					if (lounges[i].user.active)
+						actives.push(lounges[i])
+					if (i == lounges.length - 1)
+						return actives;
+				})
+			}
 		}
 	});
 }
