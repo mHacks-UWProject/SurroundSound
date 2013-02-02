@@ -37,6 +37,12 @@
             android:name="com.mHacks.surroundsound.LoungeListActivity"
             android:label="@string/app_name" >
         </activity>
+        
+         <activity
+            android:name="com.mHacks.surroundsound.LoungeActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
     </application>
 
 </manifest>

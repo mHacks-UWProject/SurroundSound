@@ -8,20 +8,15 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
-import android.location.Location;
+import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -74,6 +69,9 @@ public class LoungeListActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int pos, long id) {
 				Toast.makeText(c, x.get(pos).getLoungeId(), Toast.LENGTH_LONG).show();
+				
+				Intent intent = new Intent(c, LoungeActivity.class);
+				startActivity(intent);
 			}
 		});
 

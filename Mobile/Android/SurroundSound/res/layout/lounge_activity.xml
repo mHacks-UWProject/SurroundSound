@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#E9E6E5" >
+
+        <TextView
+            android:id="@+id/lounge_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="mHacks Party"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/lounge_main_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/lounge_title"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
+            android:src="@drawable/madeon_finale" />
+
+        <TextView
+            android:id="@+id/lounge_playing_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/lounge_now_playing_text"
+            android:layout_below="@+id/lounge_now_playing_text"
+            android:layout_marginTop="13dp"
+            android:gravity="center_horizontal"
+            android:text="Madeon"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/lounge_playing_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/lounge_now_playing_text"
+            android:layout_below="@+id/lounge_playing_artist"
+            android:gravity="center_horizontal"
+            android:text="Finale" />
+
+        <TextView
+            android:id="@+id/lounge_playing_like_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/lounge_coming_up_title"
+            android:layout_alignLeft="@+id/lounge_main_image"
+            android:layout_below="@+id/lounge_main_image"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:text="Like this?"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/lounge_now_playing_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/lounge_main_image"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@+id/lounge_main_image"
+            android:text="Now Playing..." />
+
+        <Button
+            android:id="@+id/lounge_main_no_button"
+            android:layout_width="80dp"
+            android:layout_height="42dp"
+            android:layout_below="@+id/lounge_main_image"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/lounge_main_image"
+            android:gravity="center"
+            android:text="Nope" />
+
+        <Button
+            android:id="@+id/lounge_main_yes_button"
+            android:layout_width="80dp"
+            android:layout_height="42dp"
+            android:layout_alignBottom="@+id/lounge_main_no_button"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/lounge_main_no_button"
+            android:gravity="center"
+            android:text="Like" />
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/lounge_main_no_button"
+            android:layout_alignLeft="@+id/lounge_main_no_button"
+            android:layout_alignRight="@+id/lounge_main_yes_button"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/lounge_coming_up_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/lounge_main_no_button"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:text="Coming Up:" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relativeLayout1" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#999"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lounge_make_request"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:background="#E9E6E5"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Make Request" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout01"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/lounge_make_request"
+            android:layout_alignParentLeft="true"
+            android:background="#999"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lounge_queue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/LinearLayout01"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" >
+        </ListView>
+    </RelativeLayout>
+
+</RelativeLayout>
