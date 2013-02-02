@@ -54,17 +54,17 @@ exports.newUser = function(data) {
 	user.save();
 	return user;
 }
-exports.getQueue = function(id) {
-	lounge = Lounge.find(_id: id);
-	return lounge.queue;
-
+exports.getLounge = function(id) {
+	lounge = Lounge.findById(id, function(err, lounge) {
+		return lounge;
+	});
 }
 
 function databaseContainsArtist(correctedName){
-		return false;
+	return false;
 }
 
-function queryLounges(location) {
+exports.queryLounges = function(location) {
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
 		return lounges;
 	});

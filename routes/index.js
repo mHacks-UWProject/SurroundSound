@@ -35,7 +35,7 @@ exports.postArtists = function(req, res){
 	database.importData(req.body);
 };
 	
-exports.getQueue = function(req, res){
+exports.getLounge = function(req, res){
 	
 };
 
