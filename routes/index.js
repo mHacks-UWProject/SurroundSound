@@ -25,3 +25,9 @@ exports.queue = function(req, res){
 exports.index = function(req, res){
   res.render('dj', { title: 'DJ Stuff' });
 };
+exports.register = function(req, res) {
+	res.send('register placeholder')
+}
+exports.createUser = function(req, res) {
+	database.newUser(req.body);
+}

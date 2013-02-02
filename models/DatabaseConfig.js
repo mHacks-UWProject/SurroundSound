@@ -12,8 +12,9 @@ var ArtistSchema = new new mongoose.Schema({
 	topSongs: [String]
 	});
 
-var DatabaseSchema = new mongoose.Schema({
+var LoungeSchema = new mongoose.Schema({
 	name: String,
+	geolocation: String,
 	user: [UserSchema],
 	loungePassword: String,
 	artists: [{ type: Schema.Types.ObjectId, ref: 'Artists' }]
@@ -21,4 +22,4 @@ var DatabaseSchema = new mongoose.Schema({
 	
 var UserModel = new mongoose.model('UserModel', UserSchema);
 var ArtistModel = new mongoose.model('ArtistModel', ArtistSchema);
-var DatabaseModel = new mongoose.model('DatabaseModel', DatabaseSchema);
+var LoungeModel = new mongoose.model('LoungeModel', LoungeSchema);

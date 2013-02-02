@@ -11,3 +11,12 @@ exports.importData = function (jsonArtists) {
 		
 	}
 	};
+
+exports.newLounge = function () {
+	var Lounge = mongoose.model('Lounge')
+}
+exports.newUser = function(data) {
+	var User = mongoose.model('UserModel')
+	var user = new User({username: data.username, password: data.password, email: data.email});
+	user.save();
+}
