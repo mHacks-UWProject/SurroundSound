@@ -9,13 +9,18 @@ var express = require('express')
   , path = require('path')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , env = require('./env');
+
+mongoose.connect(env.mongo.url);
+
+var database = require('./models/DatabaseConfig');
 
 var app = express();
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    mongoose.model('UserModel').findOne({ name: username, pass: password}, function (err, user) {
+    mongoose.model('User').findOne({ name: username, pass: password}, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
@@ -33,7 +38,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  mongoose.model('UserModel').findById(id, function(err, user) {
+  mongoose.model('User').findById(id, function(err, user) {
     done(err, user);
   });
 });
@@ -72,6 +77,7 @@ app.get('/', ensureAuthenticated, routes.index );
 app.post('/postArtists', routes.postArtists);
 app.get('/register', routes.register);
 app.post('/register', routes.createUser);
+app.post('/queryLounges', routes.queryLounges)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
