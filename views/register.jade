@@ -1,0 +1,13 @@
+extends layout
+
+block head
+  link(rel='stylesheet', href='/stylesheets/login.css')
+
+block content
+  .container
+      form.form-signin(method="POST", action="/register")
+          h2.form-signin-heading Register
+          input.input-block-level(type='text', placeholder='Email address')
+          input.input-block-level(type='password', placeholder='Password')
+          input.input-block-level(type='password', placeholder='Confirm Password')
+          button.btn.btn-large.btn-primary(type='submit') Register

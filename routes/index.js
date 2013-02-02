@@ -13,6 +13,14 @@ exports.login = function(req, res) {
   res.render('login', { title: 'Login' });
 };
 
+exports.register = function(req, res) {
+  res.render('register', { title: 'Register' });
+};
+
+exports.postRegister = function(req, res) {
+  // TODO: Implement
+};
+
 exports.dj = function(req,res) {
 	res.send('dj screen placeholder');
 }
