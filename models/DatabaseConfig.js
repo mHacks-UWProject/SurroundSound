@@ -23,7 +23,8 @@ var LoungeSchema = mongoose.Schema({
 	user: [UserSchema],
 	queue: ['string'],
 	loungePassword: String,
-	artists: [ArtistSchema]
+	artists: [ArtistSchema],
+	requested: [{song:String, artist:String}]
 	});
 
 
