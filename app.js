@@ -10,9 +10,9 @@ var express = require('express')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , mongoose = require('mongoose')
-  , env = require('./env');
+  , env = process.env.MONGO_URL ? process.env.MONGO_URL : require('./env');
 
-mongoose.connect(process.env.MONGO_URL ? process.env.MONGO_URL : env.mongo.url);
+mongoose.connect(env.MONGO_URL);
 
 var database = require('./models/DatabaseConfig');
 
