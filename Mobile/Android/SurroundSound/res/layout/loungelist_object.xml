@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/loungeobject_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            
+            android:layout_weight="1"
+            android:text="Valentin&apos;s Party"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+            android:id="@+id/loungeobject_lockedicon"
+            android:layout_width="35px"
+            android:layout_height="35px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:scaleType="fitXY"
+            android:src="@drawable/lock"
+            android:text="2.8km" />
+
+        <TextView
+            android:id="@+id/longelist_playing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/loungeobject_title"
+            android:layout_below="@+id/loungeobject_title"
+            android:layout_margin="2dp"
+            android:layout_marginTop="17dp"
+android:paddingBottom="5dp"
+            android:text="Now Playing: Madeon - Pop Culture"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

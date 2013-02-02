@@ -4,5 +4,8 @@
     <string name="app_name">SurroundSound</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    
+        <string name="loungelist_title">SurroundSound Around You</string>
+    
 
 </resources>
