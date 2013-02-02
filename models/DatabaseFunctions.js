@@ -40,7 +40,7 @@ exports.newLounge = function () {
 }
 
 exports.newUser = function(data) {
-	var User = mongoose.model('UserModel')
+	var User = mongoose.model('User')
 	var user = new User({username: data.username, password: data.password, email: data.email});
 	user.save();
 }

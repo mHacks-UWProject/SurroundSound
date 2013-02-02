@@ -14,12 +14,12 @@ var ArtistSchema = new new mongoose.Schema({
 
 var LoungeSchema = new mongoose.Schema({
 	name: String,
-	geolocation: String,
+	geolocation: {type: [Number], index:'2d'},
 	user: [UserSchema],
 	loungePassword: String,
 	artists: [{ type: Schema.Types.ObjectId, ref: 'Artists' }]
 	});
-	
-var UserModel = new mongoose.model('UserModel', UserSchema);
-var ArtistModel = new mongoose.model('ArtistModel', ArtistSchema);
-var LoungeModel = new mongoose.model('LoungeModel', LoungeSchema);
+LoungeSchema.ensureIndex({geolocation: "2d"})
+var UserModel = new mongoose.model('User', UserSchema);
+var ArtistModel = new mongoose.model('Artist', ArtistSchema);
+var LoungeModel = new mongoose.model('Lounge', LoungeSchema);

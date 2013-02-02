@@ -32,6 +32,7 @@ exports.postArtists = function(req, res){
 exports.getQueue = function(req, res){
 	
 };
-exports.register = function(req, res) {
-	res.send('register placeholder')
-};
+
+exports.queryLounges = function(req, res) {
+	res.send('fuck off')
+}
