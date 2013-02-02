@@ -2,29 +2,31 @@ var mongoose = require('mongoose');
 
 var UserSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-	name: 'string',
-	password: 'string',
-	email: 'string'
+	name: String,
+	password: String,
+	email: String,
+	lounge: [LoungeSchema]
 	});
-
+	
 var ArtistSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-	name: 'string',
-	genre: 'string',
-	topSongs: ['string']
+	name: String,
+	genre: [String],
+	topSongs: [String]
 	});
 
 var LoungeSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-	name: 'string',
-	geolocation: {type: ['number'], index:'2d'},
+	name: String,
+	geolocation: {type: [Number], index:'2d'},
 	user: [UserSchema],
-	loungePassword: 'string',
-	artists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artists' }]
+	loungePassword: String,
+	artists: [ArtistSchema],
+	artists: [UserSchema]
 	});
 
 LoungeSchema.index({geolocation: "2d"});
 
-var UserModel = mongoose.model('User', UserSchema);
-var ArtistModel = mongoose.model('Artist', ArtistSchema);
-var LoungeModel = mongoose.model('Lounge', LoungeSchema);
+mongoose.model('User', UserSchema);
+mongoose.model('Artist', ArtistSchema);
+mongoose.model('Lounge', LoungeSchema);
