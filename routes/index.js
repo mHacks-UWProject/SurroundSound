@@ -35,7 +35,7 @@ exports.createUser = function(req, res) {
 			return res.redirect('/createLounge');
 		});
 	} else {
-		res.send(400);
+		res.redirect("/register");
 	}
 	
 };
@@ -61,7 +61,7 @@ exports.newLounge = function(req, res){
 exports.createLounge = function(req, res){
 	User.find({name: req.user.name}, function(err, user) {
 		database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.geolocation, loungePassword: req.body.password});
-		res.render("/dj");
+		res.render("dj");
 	});
 };
 exports.updateLounge = function(req, res) {
