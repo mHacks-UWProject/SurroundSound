@@ -46,7 +46,7 @@ exports.dj = function(req,res) {
 
 exports.postArtists = function(req, res){
 	console.log("ID???", req.body.id);
-	database.importData(req.body.artists, req.body.id);
+	database.importData(req.body.artists, req.body.id, req.body.genId);
 	res.send("success");
 };
 
@@ -80,16 +80,22 @@ exports.requestSong = function(req, res) {
 		res.send("success");
 	})
 }
+exports.vote = function(req, res) {
+	if (req.body.vote == "up")
+		database.likeArtist(req.id, req.artist)
+	else if (req.body.vote == "down")
+		database.dislikeArtist(req.id, req.artist)
+}
 
 exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
-	if (req.body['devId'] != "") {
-		deviceModel.update({devId: req.body['devId']}, {regId: req.body['regId']});
+	if (req.body['genId'] != "") {
+		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
 		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
 		//res.send(req.body['devId'])
 	} else {
 		var newId = randomstring.generate();
-		var newDevice = new deviceModel({devId: newId, regId: req.body['regId'], stock: ""});
+		var newDevice = new deviceModel({genId: newId, regId: req.body['regId']});
 		newDevice.save();
 		gcmHelpers.sendId(newId, [req.body['regId']]);
 		//res.send(newId);

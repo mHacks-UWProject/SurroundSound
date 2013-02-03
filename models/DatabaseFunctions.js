@@ -7,12 +7,19 @@ var User = mongoose.model('User')
 
 var MAX_QUEUE_ITEMS = 5;
 
-exports.importData = function (jsonArtists, loungeId) {
+exports.importData = function (jsonArtists, loungeId, genId) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	console.log("ID!!!!", loungeId)
 
 	Lounge.findById(loungeId, function(err, lounge) {
+
+		mongoose.Model('Device').find({genId: genId}, function(err, device) {
+			if (err) return
+			lounge.devIds.push({genId: genId, regId: device.regId});
+			lounge.save();
+		});
+		
 
 		if (err) return
 		console.log("LOUNGE", lounge)
@@ -119,43 +126,28 @@ function updateArtistCounter (loungeId, artist, increment){
 }
 
 exports.recommendSong = function(songJson, loungeId) {
-	var lounge = Lounge.find({ _id: loungeId });
-	var requested = lounge.requested;
-	
-	for(var i = 0; i < requested.count(); i++) {
-		if(requested[i].name == songJson.artist){
-			return;
+	Lounge.findById(loungeId, function(err, lounge){
+		var requested = lounge.requested;
+		
+		for(var i = 0; i < requested.length; i++) {
+			if(requested[i].name == songJson.artist){
+				return;
+			} 
 		}
-	}
+		
+		requested.push({song: songJson.track, artist: songJson.artist});
+	});
 	
-	requested.push({song: songJson.track, artist: songJson.artist});
 }
 
-exports.popAndUpdateQueue = function(id){
+exports.nextSong = function(id){
 	var nextSong = musicAlgorithm.getNextSong();
 	var queueResults;
 	
 	Lounge.findById(id, function(err, lounge){
 		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.track, img: ""});
-	});
-
-	/*if(queueResults.count() == 0) {
-		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
-			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: i });
-			queueItem.save();
+		for (var i = 0; i < lounge.devIds.length; i++) {
+			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
 		}
-	}
-	else {
-		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
-			if(queueResults[i].position == 0) {
-				queueResults[i].remove();
-			}
-			else {
-				queueResults[i].position -= 1;
-			}
-		}
-		var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: (MAX_QUEUE_ITEMS-1) });
-		queueItem.save();
-	}*/	
-	
+	});	
 }
