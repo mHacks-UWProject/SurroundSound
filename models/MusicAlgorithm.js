@@ -4,24 +4,30 @@ var RAND_MAX = 5;
 exports.getNextSong = function(){
 	// get random number
 	var randNum = Math.floor(Math.random()*RAND_MAX);
-	
+	/*
 	//if selecting requested item or not
 	if(randNum == 0){
-		
-		var Lounge = mongoose.model('Lounge');
-		var requestedItem = Lounge.findOne({ request: true });
-		
-		
-		
+		var Artist = mongoose.model('Artist');
+		Lounge.findOneAndUpdate({ request: true }, function (err, lounge) {
+			if (!err) {
+				doc.request = false;
+				doc.save(callback);
+				return doc;
+			}
+		});
 	} 
 	else {
+		Lounge.find().sort({ count: asc }).limit(1)).exec(function (err, doc) {
+			
+		});
+		
+		*/
+		
+		
+		
 		
 		
 	}
-	
-	
-	
-	
 }
 
 
