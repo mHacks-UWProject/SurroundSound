@@ -11,7 +11,6 @@ $(function(){
   });
 
   $("#next").click(function(){
-    // ytplayer.nextVideo();
     loadNextVideoFromQueue(); 
   });
 });
@@ -22,7 +21,8 @@ var ytplayer
   , playing = false
   , queue;
 
-$.get("/test", function(data){
+$.get("/nextSong", function(data){
+  console.log("Data recieved" + data);
   queue = data;
 })
 
@@ -51,7 +51,8 @@ function stateChangeCallBack(i){
   // YT.PlayerState.PAUSED
   // YT.PlayerState.BUFFERING
   // YT.PlayerState.CUED
-  console.log("on state change: " + i);
+
+  console.log("YouTube state change: " + i);
   switch(i) {
     case YT.PlayerState.PLAYING:
       playing = true;
@@ -67,7 +68,11 @@ function stateChangeCallBack(i){
 }
 
 function loadNextVideoFromQueue(){
-  var song = queue.shift();
-  console.log(song);
-  console.log(ytplayer.loadPlaylist({list: song.name + " " + song.artist, listType: "search"}));
+  if(queue) {
+    var song = queue.shift();
+    console.log(song);
+    console.log(ytplayer.loadPlaylist({list: song.name + " " + song.artist, listType: "search"}));
+  } else {
+    console.log("Error: queue from server is empty");
+  }
 }
