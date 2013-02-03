@@ -46,7 +46,7 @@ exports.dj = function(req,res) {
 
 exports.postArtists = function(req, res){
 	console.log("ID???", req.body.id);
-	database.importData(req.body.artists, mongoose.Schema.Types.ObjectId(req.body.id));
+	database.importData(req.body.artists, req.body.id);
 	res.send("success");
 };
 

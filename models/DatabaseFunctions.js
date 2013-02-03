@@ -11,6 +11,8 @@ exports.importData = function (jsonArtists, loungeId) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	console.log("ID!!!!", loungeId)
+	console.log("ID...", mongoose.Schema.Types.ObjectId(loungeId));
+
 	Lounge.findById(loungeId, function(err, lounge) {
 
 		if (err) return
