@@ -9,7 +9,7 @@ var MAX_QUEUE_ITEMS = 5;
 
 exports.importData = function (jsonArtists, loungeId, genId) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
-	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
+	var getAPIKey = "&autocorrect=1&limit=5&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	console.log("ID!!!!", loungeId)
 	Lounge.findById(loungeId, function(err, lounge) {
 		console.log("GENID", genId)
@@ -49,7 +49,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 					};
 					if (!duplicate) {
 						var topTracks = [];
-						var albumArt = tracks[0].image["#text"];
+						var albumArt = tracks[1]["#text"];
 						for(var i = 0; i < tracks.length; i++){
 							topTracks.push(tracks[i].name);
 						}
