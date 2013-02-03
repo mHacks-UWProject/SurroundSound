@@ -28,7 +28,7 @@ exports.importData = function (jsonArtists, loungeId) {
 					var correctedName = tracks[0].artist.name;
 					var duplicate = false;
 					for(var i = 0; i < loungeArtists.length; i++){
-						if(loungeArtist[i].name == correctedName){
+						if(loungeArtists[i].name == correctedName){
 							updateArtistCounter(artist.name, 1);
 							duplicate = true;
 							continue;
