@@ -74,8 +74,8 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 	});
 };
 
-exports.newLounge = function (user) {
-	var lounge = new Lounge({user: user.id, geolocation: [42.280681,-83.733818], active: true});
+exports.newLounge = function (data) {
+	var lounge = new Lounge({data});
 	lounge.save();
 	return lounge;
 }

@@ -29,7 +29,7 @@ exports.register = function(req, res) {
 exports.createUser = function(req, res) {
 	if (req.body.password == req.body.confirmpassword) {
 		var user = database.newUser({username: req.body.username, password: req.body.password, email: req.body.email});
-		database.newLounge(user);
+		//database.newLounge(user);
 		req.login(user, function(err) {
 			if (err) return next(err); 
 			return res.render('new_lounge', {title: "Create Lounge"});
@@ -60,7 +60,7 @@ exports.newLounge = function(req, res){
 
 exports.createLounge = function(req, res){
 	User.find({name: req.user.name}, function(err, user) {
-		database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.geolocation, loungePassword: req.body.password});
+		database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.location, loungePassword: req.body.password});
 		res.render("dj", {title: 'DJ'});
 	});
 };
