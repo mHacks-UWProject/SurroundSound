@@ -38,12 +38,6 @@ function onYouTubePlayerReady(playerId) {
   ytplayer.addEventListener("onStateChange", "stateChangeCallBack");
 
   ytplayer.loadVideoById("bHQqvYy5KYo", 5, "large");
-  
-  // ytplayer.loadPlaylist({listType: 'search',
-  //             list: 'Green Day Holiday'
-  //             // index: 0,
-  //             // startSeconds: 0,
-  //             /*suggestedQuality: 'best'*/});
 }
 
 function stateChangeCallBack(i){
@@ -73,7 +67,7 @@ function loadNextVideoFromQueue(){
   if(queue) {
     if(queue.length > 0) {
       var song = queue.shift();
-      ytplayer.loadSongByUrl(song.url);
+      ytplayer.loadVideoByUrl(song.url, 0, "large");
       updateQueueDisplay();
     } else {
       displayEmptyQueue();
@@ -92,6 +86,6 @@ function displayEmptyQueue(){
 
 function updateQueueDisplay(){
   queue.forEach(function(song){
-    $("<li>" + song.song + "</li>").appendTo(queue);
+    $("<li>" + song.song + "</li>").appendTo(queueList);
   });
 }
