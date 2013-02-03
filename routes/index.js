@@ -137,7 +137,6 @@ exports.nextSong = function(req, res) {
 	var songs;
 
 	Lounge.find({user: req.user.id}, function(err, lounge) {
-		console.log("Lounge id: " + lounge);
 		songs = database.nextSong(lounge);
 
     async.forEach(songs, getYouTubeUrl, function(err){
