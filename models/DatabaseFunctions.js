@@ -154,7 +154,7 @@ exports.recommendSong = function(songJson, loungeId) {
 	
 }
 
-exports.nextSong = function(lounge, res){
+exports.nextSong = function(lounge){
 	var song = musicAlgorithm.getNextSong(lounge);
 	
 	if(song) {
@@ -168,8 +168,8 @@ exports.nextSong = function(lounge, res){
 			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
 		}
 
-		res.send(lounge.queue);
+		return lounge.queue;
 	} else {
-		res.send([]);
+		return [];
 	}
 }

@@ -134,16 +134,17 @@ function getYouTubeUrl(song, callback){
 }
 
 exports.nextSong = function(req, res) {
-	console.log("User id: " + req.user.id);
-	var songs = Lounge.find({user: req.user.id}, function(err, lounge) {
+	var songs;
+
+	Lounge.find({user: req.user.id}, function(err, lounge) {
 		console.log("Lounge id: " + lounge);
-		database.nextSong(lounge, res);
-	})
+		songs = database.nextSong(lounge);
 
-  async.forEach(songs, getYouTubeUrl, function(err){
-    if(err)
-      console.log("For each error: " + err);
+    async.forEach(songs, getYouTubeUrl, function(err){
+      if(err)
+        console.log("For each error: " + err);
 
-    res.send(songs);
-  });
+      res.send(songs);
+    });
+	});
 };
