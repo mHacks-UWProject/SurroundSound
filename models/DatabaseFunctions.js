@@ -30,7 +30,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 			var getCorrection = getTopTracks + artist + getAPIKey;
 			request(getCorrection, function (error, response, body) {
 				var tracks = JSON.parse(body).toptracks.track;
-				var albumArtArray = JSON.parse(body).toptracks.image;
+				var albumArtArray = tracks.image;
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
 					var duplicate = false;
@@ -61,7 +61,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 						lounge.artists.push({
 							name: correctedName,
 							topSongs: topTracks,
-							albumImage: albumArt,
+							img: albumArt,
 							count: 1,
 							likes: 0,
 							dislikes: 0
@@ -154,7 +154,7 @@ exports.recommendSong = function(songJson, loungeId) {
 	
 }
 
-exports.nextSong = function(lounge, res){
+exports.nextSong = function(lounge){
 	var song = musicAlgorithm.getNextSong(lounge);
 	
 	if(song) {
@@ -168,8 +168,8 @@ exports.nextSong = function(lounge, res){
 			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
 		}
 
-		res.send(lounge.queue);
+		return lounge.queue;
 	} else {
-		res.send([]);
+		return [];
 	}
 }

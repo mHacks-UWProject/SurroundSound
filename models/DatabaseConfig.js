@@ -9,7 +9,7 @@ var LoungeSchema = mongoose.Schema({
 	loungePassword: String,
 	requested: [{song:String, artist:String, img:String}],
 	artists: [{ name: String,
-				albumImage: String,
+				img: String,
 				topSongs: [String],
 				count: Number,
 				likes: Number,
