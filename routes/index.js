@@ -69,8 +69,7 @@ exports.getLounge = function(req, res){
 };
 
 exports.queryLounges = function(req, res) {
-	var lounges = database.queryLounges(req.body.geo, res);
-	console.log('lounges', lounges)
+	database.queryLounges(req.body.geo, res);
 	//res.send(lounges);\ \\
 }
 
