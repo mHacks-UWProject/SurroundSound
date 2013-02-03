@@ -15,7 +15,8 @@ var LoungeSchema = mongoose.Schema({
 				dislikes: Number}],
 	queue:[{song: String, artist: String, img: String}],
 	user: ObjectId,
-	active: Boolean
+	active: Boolean,
+	devIds: [{genId: String, regId: String}]
 	});
 
 var UserSchema = mongoose.Schema({
@@ -27,9 +28,9 @@ var UserSchema = mongoose.Schema({
 	});
 
 var DeviceSchema = mongoose.Schema({
-	webid: Number,
-	regid: Number,
-})
+	genId: String,
+	regId: String
+});
 
 LoungeSchema.index({geolocation: "2d"});
 

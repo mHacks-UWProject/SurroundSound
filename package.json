@@ -13,7 +13,11 @@
     "passport": "*",
     "passport-local": "*",
     "request": "*",
-    "node-gcm": "*"
+    "node-gcm": "*",
+    "randomstring": "*",
+    "async": "*",
+    "cheerio": "*",
+    "nodetime": "*"
   },
   "engines": {
     "node": "0.8.x",

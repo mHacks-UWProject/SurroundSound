@@ -3,11 +3,16 @@
  * GET home page.
  */
 
-var databaseConfig = require("../models/DatabaseConfig.js") 
-var database = require("../models/DatabaseFunctions.js")
-var mongoose = require('mongoose')
-var Lounge = mongoose.model("Lounge")
+var databaseConfig = require("../models/DatabaseConfig.js");
+var database = require("../models/DatabaseFunctions.js");
+var mongoose = require('mongoose');
+var Lounge = mongoose.model("Lounge");
 var User = mongoose.model("User");
+var gcmHelpers = require("../gcmHelpers.js");
+var randomstring = require("randomstring");
+var cheerio = require('cheerio');
+var async = require('async');
+var request = require('request');
 
 exports.index = function(req, res){
   res.render('dj', { title: 'DJ Stuff' });
@@ -44,7 +49,8 @@ exports.dj = function(req,res) {
 };
 
 exports.postArtists = function(req, res){
-	database.importData(req.body.artists, req.body.id);
+	database.importData(req.body.artists, req.body.id, req.body.genId);
+	res.send("success");
 };
 
 exports.newLounge = function(req, res){
@@ -60,16 +66,14 @@ exports.createLounge = function(req, res){
 exports.updateLounge = function(req, res) {
 	Lounge.update({user: req.user.id}, req.body);
 }
-exports.getLounge = function(req, res){	
+exports.queryLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
 	 	res.send(lounge);
 	 });
 };
 
 exports.queryLounges = function(req, res) {
-	var lounges = database.queryLounges(req.body.geo, res);
-	console.log('lounges', lounges)
-	//res.send(lounges);\ \\
+	database.queryLounges(req.body.geo, res);
 }
 
 exports.requestSong = function(req, res) {
@@ -78,18 +82,28 @@ exports.requestSong = function(req, res) {
 		res.send("success");
 	})
 }
+exports.vote = function(req, res) {
+	if (req.body.vote == "up")
+		database.likeArtist(req.id, req.artist)
+	else if (req.body.vote == "down")
+		database.dislikeArtist(req.id, req.artist)
+	res.send("voted");
+}
 
 exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
+	console.log("received", req.body['genId'], " ", req.body['regId']);
 	if (req.body['genId'] != "") {
 		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
-		gcmHelpers.sendId(+
-			req.body['genId'], [req.body['regId']]);
+		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
+		//res.send(req.body['devId'])
 	} else {
 		var newId = randomstring.generate();
-		var newDevice = new deviceModel({devId: newId, regId: req.body['regId'], stock: ""});
+		console.log(newId)
+		var newDevice = new deviceModel({genId: newId, regId: req.body['regId']});
 		newDevice.save();
 		gcmHelpers.sendId(newId, [req.body['regId']]);
+		//res.send(newId);
 	}
 	//if (typeof res.body != 'undefined' && res.body){
 	//}
@@ -97,7 +111,35 @@ exports.registerGCM = function(req, res) {
 	res.send('sup');
 }
 
-exports.testYoutube = function(req, res){
-	res.send([{artist: "Mumford and Sons", song: "Cave", img: ""}, {artist: "Madeon", song:"Finale", img: ""}, {artist: "Decemberists", 
-		song: "We Both Go Down Together", img: ""}, {artist: "The Protomen", song: "The Hounds", img: ""}, {artist: "Muse", song: "Knights of Cydonia", img: ""}]);
+function getYouTubeUrl(song, callback){ 
+  var query = song.artist + " " + song.song;
+  request("http://www.youtube.com/results?search_query=" + encodeURIComponent(query), function(err, req, body){
+    if(!err) {
+      var $ = cheerio.load(body)
+        , link = $('#search-results a[href^="/watch"]');
+
+      if(link.length > 0) {
+        song.url = "http://youtube.com" + link.attr('href');
+        callback(false, song);
+      } else {
+        callback("no link found", song);
+      }
+    } else {
+      console.log("Error getting youtube search result for " + song.song + ":" + err);
+      callback(err, song);
+    }
+  })
+}
+
+exports.nextSong = function(req, res) {
+	var songs = Lounge.find({user: req.user.id}, function(err, lounge) {
+		database.nextSong(req.user.id, res);
+	})
+
+  async.forEach(songs, getYouTubeUrl, function(err){
+    if(err)
+      console.log("For each error: " + err);
+
+    res.send(songs);
+  });
 };

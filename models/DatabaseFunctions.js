@@ -7,46 +7,66 @@ var User = mongoose.model('User')
 
 var MAX_QUEUE_ITEMS = 5;
 
-exports.importData = function (jsonArtists, loungeId) {
-	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
-			"artist.gettoptracks&artist=";
+exports.importData = function (jsonArtists, loungeId, genId) {
+	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
-	
-	var lounge = Lounge.find({_id: loungeId});
-	var loungeArtists = lounge.artists;
-				
-	for(var artist in jsonArtists.d) {
-		var artistExists = false;
-		
-		getCorrection += artist + getAPIKey;
-		request(getTopTracks, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var correctedName = body.toptracks.track[0].artist.name;
-
-				for(var loungeArtist in loungeArtists){
-					if(loungeArtist.name == correctedName){
-						updateArtistCounter(artist.name, 1);
-						continue;
-					}
-				}
-				
-				var topTracks = [];
-				
-				for(var track in body.toptracks.track){
-					topTracks.push(track.name);
-				}
-					
-				lounge.artist.push({
-					name: correctedName,
-					topSongs: topTracks,
-					count: 1,
-					likes: 0,
-					dislikes: 0
-				});
-			}
+	console.log("ID!!!!", loungeId)
+	Lounge.findById(loungeId, function(err, lounge) {
+		console.log("GENID", genId)
+		mongoose.model('Device').find({genId: genId}, function(err, device) {
+			if (err) return
+			if (!lounge.devIds)
+				lounge.devIds = [];
+			lounge.devIds.push({genId: genId, regId: device.regId});
+			lounge.save();
 		});
-	}
-}
+		
+
+		if (err) return
+		var loungeArtists = lounge.artists;
+					
+		for(var i = 0; i < jsonArtists.length; i++) {
+			var artistExists = false;
+			var artist = jsonArtists[i];
+			var getCorrection = getTopTracks + artist + getAPIKey;
+			request(getCorrection, function (error, response, body) {
+				var tracks = JSON.parse(body).toptracks.track;
+				if (!error && response.statusCode == 200) {
+					var correctedName = tracks[0].artist.name;
+					var duplicate = false;
+					for(var i = 0; i < loungeArtists.length; i++){
+						if(loungeArtists[i].name == correctedName){
+							var registered = false;
+							for (var i=0; i<lounge.devIds; i++){
+								if (genId == lounge.devIds[i].genId)
+									registered = true;
+							};
+							if (!registered){
+								updateArtistCounter(loungeId, artist.name, 1);
+								duplicate = true;
+								continue;
+							};
+						};
+					};
+					if (!duplicate) {
+						var topTracks = [];
+						for(var i = 0; i < tracks.length; i++){
+							topTracks.push(tracks[i].name);
+						}
+						lounge.artists.push({
+							name: correctedName,
+							topSongs: topTracks,
+							count: 1,
+							likes: 0,
+							dislikes: 0
+						});
+						lounge.save();
+					};	
+				};
+			});
+		};
+	});
+};
 
 exports.newLounge = function (user) {
 	var lounge = new Lounge({user: user.id, geolocation: [42.280681,-83.733818], active: true});
@@ -59,7 +79,7 @@ exports.newUser = function(data) {
 	user.save();
 	return user;
 }
-exports.getLounge = function(id) {
+exports.queryLounge = function(id) {
 	lounge = Lounge.findById(id, function(err, lounge) {
 		return lounge;
 	});
@@ -68,7 +88,6 @@ exports.getLounge = function(id) {
 exports.queryLounges = function(location, res) {
 	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
-		console.log("lounges log", lounges);
 		if (err){
 			console.log(err);
 			res.send("NONE FOUND");
@@ -77,7 +96,7 @@ exports.queryLounges = function(location, res) {
 				//if (lounges.active)
 				var lounge = lounges[i];
 				lounge.nowPlaying = lounges[i].queue[0];
-				actives.push(lounges);
+				actives.push(lounge);
 			};
 			res.send(actives);
 		};
@@ -100,54 +119,42 @@ exports.dislikeArtist = function(loungeId, artist) {
 }
 
 function updateArtistCounter (loungeId, artist, increment){
-	var lounge = Lounge.find({ _id: loungeId });
-	var artists = lounge.artists;
-	for(var i = 0; i < artists.count(); i++) {
-		if(artists[i].name == artist){
-			lounge.artists[i].count += increment;
-			lounge.save();
-			return;
+	Lounge.findById(loungeId, function(err, lounge) {
+		var artists = lounge.artists;
+		for(var i = 0; i < artists.length; i++) {
+			if(artists[i].name == artist){
+				lounge.artists[i].count += increment;
+				lounge.save();
+				return;
+			}
 		}
-	}
+	});
 }
 
 exports.recommendSong = function(songJson, loungeId) {
-	var lounge = Lounge.find({ _id: loungeId });
-	var requested = lounge.requested;
-	
-	for(var i = 0; i < requested.count(); i++) {
-		if(requested[i].name == songJson.artist){
-			return;
+	Lounge.findById(loungeId, function(err, lounge){
+		var requested = lounge.requested;
+		
+		for(var i = 0; i < requested.length; i++) {
+			if(requested[i].name == songJson.artist){
+				return;
+			} 
 		}
-	}
-	
-	requested.push({song: songJson.track, artist: songJson.artist});
-}
-
-exports.popAndUpdateQueue = function(){
-	/*var nextSong = musicAlgorithm.getNextSong();
-	var queueResults;
-	Queue.find(null, function(err, res){ 
-		queueResults = res;
+		
+		requested.push({song: songJson.track, artist: songJson.artist});
 	});
 	
-	if(queueResults.count() == 0) {
-		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
-			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: i });
-			queueItem.save();
-		}
-	}
-	else {
-		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
-			if(queueResults[i].position == 0) {
-				queueResults[i].remove();
-			}
-			else {
-				queueResults[i].position -= 1;
-			}
-		}
-		var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: (MAX_QUEUE_ITEMS-1) });
-		queueItem.save();
-	}*/	
+}
+
+exports.nextSong = function(id, res){
+	var nextSong = musicAlgorithm.getNextSong();
+	var queueResults;
 	
+	Lounge.findById(id, function(err, lounge){
+		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
+		res.send(lounge.queue);
+		for (var i = 0; i < lounge.devIds.length; i++) {
+			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
+		}
+	});	
 }
