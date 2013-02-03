@@ -30,7 +30,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 			var getCorrection = getTopTracks + artist + getAPIKey;
 			request(getCorrection, function (error, response, body) {
 				var tracks = JSON.parse(body).toptracks.track;
-				var albumArtArray = JSON.parse(body).toptracks.image;
+				var albumArtArray = tracks.image;
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
 					var duplicate = false;
