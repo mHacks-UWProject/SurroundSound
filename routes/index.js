@@ -59,7 +59,7 @@ exports.newLounge = function(req, res){
 };
 
 exports.createLounge = function(req, res){
-	User.find({name: req.user.name}, function(err, user) {
+	User.find({name: req.user.username}, function(err, user) {
 		database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.location, loungePassword: req.body.password});
 		res.render("dj", {title: 'DJ'});
 	});
