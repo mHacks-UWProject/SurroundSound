@@ -24,7 +24,6 @@ exports.importData = function (jsonArtists, loungeId) {
 				var tracks = JSON.parse(body).toptracks.track;
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
-
 					for(var i = 0; i < loungeArtists.length; i++){
 						if(loungeArtist[i].name == correctedName){
 							updateArtistCounter(artist.name, 1);
@@ -34,6 +33,7 @@ exports.importData = function (jsonArtists, loungeId) {
 							for(var i = 0; i < tracks.length; i++){
 								topTracks.push(track[i].name);
 							}
+							console.log(topTracks)
 							lounge.artists.push({
 								name: correctedName,
 								topSongs: topTracks,
