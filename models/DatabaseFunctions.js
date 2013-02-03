@@ -75,6 +75,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 };
 
 exports.newLounge = function (data) {
+	console.log("NEW LOUNGE ", data)
 	var lounge = new Lounge(data);
 	lounge.save();
 	return lounge;
