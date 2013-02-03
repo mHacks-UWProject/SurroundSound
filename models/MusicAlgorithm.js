@@ -21,13 +21,13 @@ exports.getNextSong = function(){
 			
 		});
 		
-		*/
 		
 		
 		
 		
 		
-	}
+		
+	}*/
 }
 
 

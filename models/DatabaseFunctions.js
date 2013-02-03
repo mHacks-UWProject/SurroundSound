@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var request = require('request');
 var musicAlgorithm = require('../models/MusicAlgorithm.js');
 
-var ArtistModel = mongoose.model('Artist');
 var Lounge = mongoose.model('Lounge');
 var User = mongoose.model('User')
 
@@ -94,21 +93,37 @@ exports.queryLoungeInformation = function(loungeId){
 	});
 }
 
-exports.likeArtist = function(artist) {
+exports.likeArtist = function(loungeId, artist) {
 	updateArtistCounter(artist, 1);
 }
 
-exports.dislikeArtist = function(artist) {
+exports.dislikeArtist = function(loungeId, artist) {
 	updateArtistCounter(artist, -1);
 }
 
-function updateArtistCounter (artist, increment){
-	ArtistModel.findAndModify({ name: artist }, [], { $inc: { counter: increment } });
+function updateArtistCounter (loungeId, artist, increment){
+	var lounge = Lounge.find({ _id: loungeId });
+	var artists = lounge.artists;
+	for(var i = 0; i < artists.count(); i++) {
+		if(artists[i].name == artist){
+			lounge.artists[i].count += increment;
+			lounge.save();
+			return;
+		}
+	}
 }
 
-exports.recommendSong = function(songJson) {
-		
+exports.recommendSong = function(songJson, loungeId) {
+	var lounge = Lounge.find({ _id: loungeId });
+	var requested = lounge.requested;
 	
+	for(var i = 0; i < requested.count(); i++) {
+		if(requested[i].name == songJson.artist){
+			return;
+		}
+	}
+	
+	requested.push({song: songJson.track, artist: songJson.artist});
 }
 
 exports.popAndUpdateQueue = function(){
