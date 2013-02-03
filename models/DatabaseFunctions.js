@@ -8,44 +8,45 @@ var User = mongoose.model('User')
 var MAX_QUEUE_ITEMS = 5;
 
 exports.importData = function (jsonArtists, loungeId) {
-	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
-			"artist.gettoptracks&artist=";
+	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	
-	var lounge = Lounge.find({_id: loungeId});
-	var loungeArtists = lounge.artists;
-				
-	for(var artist in jsonArtists) {
-		var artistExists = false;
-		
-		getCorrection += artist + getAPIKey;
-		request(getTopTracks, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var correctedName = body.toptracks.track[0].artist.name;
+	Lounge.findById(loungeId, function(err, lounge) {
 
-				for(var loungeArtist in loungeArtists){
-					if(loungeArtist.name == correctedName){
-						updateArtistCounter(artist.name, 1);
-						continue;
-					}
-				}
-				
-				var topTracks = [];
-				
-				for(var track in body.toptracks.track){
-					topTracks.push(track.name);
-				}
+
+		var loungeArtists = lounge.artists;
 					
-				lounge.artist.push({
-					name: correctedName,
-					topSongs: topTracks,
-					count: 1,
-					likes: 0,
-					dislikes: 0
-				});
-			}
-		});
-	}
+		for(var artist in jsonArtists) {
+			var artistExists = false;
+			
+			var getCorrection = getTopTracks + artist + getAPIKey;
+			request(getCorrection, function (error, response, body) {
+				if (!error && response.statusCode == 200) {
+					var correctedName = body.toptracks.track[0].artist.name;
+
+					for(var loungeArtist in loungeArtists){
+						if(loungeArtist.name == correctedName){
+							updateArtistCounter(artist.name, 1);
+							continue;
+						} else {
+							var topTracks = [];
+							for(var track in body.toptracks.track){
+								topTracks.push(track.name);
+							}
+							lounge.artist.push({
+								name: correctedName,
+								topSongs: topTracks,
+								count: 1,
+								likes: 0,
+								dislikes: 0
+							});
+							lounge.save();
+						}
+					}		
+				}
+			});
+		}
+	});
 }
 
 exports.newLounge = function (user) {
