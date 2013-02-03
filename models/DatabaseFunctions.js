@@ -77,7 +77,7 @@ exports.queryLounges = function(location, res) {
 				//if (lounges.active)
 				var lounge = lounges[i];
 				lounge.nowPlaying = lounges[i].queue[0];
-				actives.push(lounges);
+				actives.push(lounge);
 			};
 			res.send(actives);
 		};
