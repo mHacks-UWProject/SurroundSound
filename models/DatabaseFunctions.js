@@ -34,7 +34,7 @@ exports.importData = function (jsonArtists, loungeId) {
 							for(var track in tracks){
 								topTracks.push(track.name);
 							}
-							lounge.artist.push({
+							lounge.artists.push({
 								name: correctedName,
 								topSongs: topTracks,
 								count: 1,
