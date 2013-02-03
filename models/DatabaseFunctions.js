@@ -49,7 +49,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 					};
 					if (!duplicate) {
 						var topTracks = [];
-						var albumArt = tracks[1]["#text"];
+						var albumArt = tracks[0].image["#text"];
 						for(var i = 0; i < tracks.length; i++){
 							topTracks.push(tracks[i].name);
 						}
