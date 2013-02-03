@@ -11,9 +11,8 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	console.log("ID!!!!", loungeId)
-
 	Lounge.findById(loungeId, function(err, lounge) {
-
+		console.log("GENID", genId)
 		mongoose.model('Device').find({genId: genId}, function(err, device) {
 			if (err) return
 			if (!lounge.devIds)
@@ -24,7 +23,6 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 		
 
 		if (err) return
-		console.log("LOUNGE", lounge)
 		var loungeArtists = lounge.artists;
 					
 		for(var i = 0; i < jsonArtists.length; i++) {
@@ -83,7 +81,6 @@ exports.getLounge = function(id) {
 exports.queryLounges = function(location, res) {
 	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
-		console.log("lounges log", lounges);
 		if (err){
 			console.log(err);
 			res.send("NONE FOUND");

@@ -45,7 +45,6 @@ exports.dj = function(req,res) {
 };
 
 exports.postArtists = function(req, res){
-	console.log("ID???", req.body.id);
 	database.importData(req.body.artists, req.body.id, req.body.genId);
 	res.send("success");
 };
