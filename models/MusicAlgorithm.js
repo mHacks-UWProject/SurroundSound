@@ -4,7 +4,7 @@ var RAND_MAX = 5;
 exports.getNextSong = function(loungeId){
 	var Lounge = mongoose.model('Lounge');
 	Lounge.findById(loungeId, function(err, lounge) {
-		if(!err && typeof lounge != 'undefined'){
+		if(!err && lounge != undefined){
 			var nextSong;
 			
 			// get random number
@@ -15,7 +15,7 @@ exports.getNextSong = function(loungeId){
 				nextSong = lounge.requested.shift();
 			} else {
 				// get non requested song based on algorithm
-				if(typeof lounge.artists != 'undefined'){
+				if(lounge.artists != undefined){
 					var artists = lounge.artists;
 					var artistScore = [];
 					for(var i = 0; i < artists.length; i++){

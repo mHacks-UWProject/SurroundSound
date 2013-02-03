@@ -158,10 +158,12 @@ exports.nextSong = function(id, res){
 	var queueResults;
 	
 	Lounge.findById(id, function(err, lounge){
-		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
-		res.send(lounge.queue);
-		for (var i = 0; i < lounge.devIds.length; i++) {
-			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
+		if(!err && lounge != undefined){
+			lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
+			res.send(lounge.queue);
+			for (var i = 0; i < lounge.devIds.length; i++) {
+				gcmHelpers.sendChanged([lounge.devIds[i].regId]);
+			}
 		}
 	});	
 }
