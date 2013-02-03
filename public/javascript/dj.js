@@ -12,7 +12,7 @@ $(function(){
 
   $("#next").click(function(){
     // ytplayer.nextVideo();
-    ytplayer.loadVideoById("RPg63uxYwN0", 5, "large");  
+    loadNextVideoFromQueue(); 
   });
 });
 
@@ -20,11 +20,14 @@ var ytplayer
   , params = { allowScriptAccess: "always" }
   , atts = { id: "myytplayer" }
   , playing = false
-  , queue = $.get("/test");
+  , queue;
 
-  console.log(queue);
+$.get("/test", function(data){
+  queue = data;
+})
 
-swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&playerapiid=ytplayer&version=3",
+
+swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&playerapiid=ytplayer&version=2",
                    "ytapiplayer", "425", "356", "8", null, null, params, atts);
 
 function onYouTubePlayerReady(playerId) {
@@ -64,5 +67,7 @@ function stateChangeCallBack(i){
 }
 
 function loadNextVideoFromQueue(){
-  console.log(queue.shift());
+  var song = queue.shift();
+  console.log(song);
+  console.log(ytplayer.loadPlaylist({list: song.name + " " + song.artist, listType: "search"}));
 }

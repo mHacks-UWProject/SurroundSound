@@ -10,6 +10,9 @@ var Lounge = mongoose.model("Lounge");
 var User = mongoose.model("User");
 var gcmHelpers = require("../gcmHelpers.js");
 var randomstring = require("randomstring");
+var cheerio = require('cheerio');
+var async = require('async');
+var request = require('request');
 
 exports.index = function(req, res){
   res.render('dj', { title: 'DJ Stuff' });
@@ -107,13 +110,35 @@ exports.registerGCM = function(req, res) {
 	res.send('sup');
 }
 
-exports.testYoutube = function(req, res){
-	res.send([{artist: "Mumford and Sons", song: "Cave", img: ""}, {artist: "Madeon", song:"Finale", img: ""}, {artist: "Decemberists", 
-		song: "We Both Go Down Together", img: ""}, {artist: "The Protomen", song: "The Hounds", img: ""}, {artist: "Muse", song: "Knights of Cydonia", img: ""}]);
-};
+function getYouTubeUrl(song, callback){ 
+  var query = song.artist + " " + song.song;
+  request("http://www.youtube.com/results?search_query=" + encodeURIComponent(query), function(err, req, body){
+    if(!err) {
+      var $ = cheerio.load(body)
+        , link = $('#search-results a[href^="/watch"]');
+
+      if(link.length > 0) {
+        song.url = "http://youtube.com" + link.attr('href');
+        callback(false, song);
+      } else {
+        callback("no link found", song);
+      }
+    } else {
+      console.log("Error getting youtube search result for " + song.song + ":" + err);
+      callback(err, song);
+    }
+  })
+}
 
 exports.nextSong = function(req, res) {
-	Lounge.find({user: req.user.id}, function(err, lounge) {
+	var songs = Lounge.find({user: req.user.id}, function(err, lounge) {
 		database.nextSong(req.user.id, res);
 	})
-}
+
+  async.forEach(songs, getYouTubeUrl, function(err){
+    if(err)
+      console.log("For each error: " + err);
+
+    res.send(songs);
+  });
+};
