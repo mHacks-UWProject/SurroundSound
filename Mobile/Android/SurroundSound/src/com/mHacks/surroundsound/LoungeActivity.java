@@ -45,7 +45,7 @@ public class LoungeActivity extends Activity {
 		
 		JSONObject lounge = new JSONObject();
 		try {
-			lounge.put("loungeId", mLoungeId);
+			lounge.put("id", mLoungeId);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
