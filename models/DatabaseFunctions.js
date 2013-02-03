@@ -140,12 +140,13 @@ exports.recommendSong = function(songJson, loungeId) {
 	
 }
 
-exports.nextSong = function(id){
+exports.nextSong = function(id, res){
 	var nextSong = musicAlgorithm.getNextSong();
 	var queueResults;
 	
 	Lounge.findById(id, function(err, lounge){
 		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.track, img: ""});
+		res.send(lounge.queue);
 		for (var i = 0; i < lounge.devIds.length; i++) {
 			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
 		}

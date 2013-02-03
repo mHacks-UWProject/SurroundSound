@@ -89,6 +89,7 @@ exports.vote = function(req, res) {
 
 exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
+	console.log("received", req.genId, " ", req.regId);
 	if (req.body['genId'] != "") {
 		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
 		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
@@ -110,3 +111,9 @@ exports.testYoutube = function(req, res){
 	res.send([{artist: "Mumford and Sons", song: "Cave", img: ""}, {artist: "Madeon", song:"Finale", img: ""}, {artist: "Decemberists", 
 		song: "We Both Go Down Together", img: ""}, {artist: "The Protomen", song: "The Hounds", img: ""}, {artist: "Muse", song: "Knights of Cydonia", img: ""}]);
 };
+
+exports.nextSong = function(req, res) {
+	Lounge.find({user: req.user.id}, function(err, lounge) {
+		database.nextSong(req.user.id, res);
+	})
+}
