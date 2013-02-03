@@ -104,7 +104,7 @@ app.post('/registerGCM', routes.registerGCM);
 app.get('/test', routes.testYoutube);
 app.get('/nextSong', routes.nextSong);
 app.post('/vote', routes.vote);
-app.post('/queryLounge', routes.queryLounge)
+app.post('/queryLounge', routes.queryLounge);
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });

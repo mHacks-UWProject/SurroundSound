@@ -63,7 +63,7 @@ exports.createLounge = function(req, res){
 exports.updateLounge = function(req, res) {
 	Lounge.update({user: req.user.id}, req.body);
 }
-exports.getLounge = function(req, res){	
+exports.queryLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
 	 	res.send(lounge);
 	 });
