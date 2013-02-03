@@ -14,7 +14,10 @@
     "passport-local": "*",
     "request": "*",
     "node-gcm": "*",
-    "randomstring": "*"
+    "randomstring": "*",
+    "async": "*",
+    "cheerio": "*",
+    "nodetime": "*"
   },
   "engines": {
     "node": "0.8.x",

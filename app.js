@@ -1,3 +1,4 @@
+require('nodetime').profile()
 
 /**
  * Module dependencies.
@@ -91,6 +92,8 @@ app.get('/dj', ensureAuthenticated, function(req, res) {
       }
     })
   })
+
+  res.send("no valid user");
 });
 app.get('/register', routes.register);
 app.get('/', ensureAuthenticated, routes.index );
@@ -101,7 +104,6 @@ app.get('/createLounge', routes.newLounge);
 app.post('/createLounge', routes.createLounge);
 app.post('/queryLounges', routes.queryLounges);
 app.post('/registerGCM', routes.registerGCM);
-app.get('/test', routes.testYoutube);
 app.get('/nextSong', routes.nextSong);
 app.post('/vote', routes.vote);
 app.post('/queryLounge', routes.queryLounge);

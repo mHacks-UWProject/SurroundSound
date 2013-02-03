@@ -11,8 +11,7 @@ $(function(){
   });
 
   $("#next").click(function(){
-    // ytplayer.nextVideo();
-    ytplayer.loadVideoById("RPg63uxYwN0", 5, "large");  
+    loadNextVideoFromQueue(); 
   });
 });
 
@@ -20,11 +19,15 @@ var ytplayer
   , params = { allowScriptAccess: "always" }
   , atts = { id: "myytplayer" }
   , playing = false
-  , queue = $.get("/test");
+  , queue;
 
-  console.log(queue);
+$.get("/nextSong", function(data){
+  console.log("Data recieved: " + data);
+  queue = data;
+})
 
-swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&playerapiid=ytplayer&version=3",
+
+swfobject.embedSWF("http://www.youtube.com/apiplayer?enablejsapi=1&playerapiid=ytplayer&version=2",
                    "ytapiplayer", "425", "356", "8", null, null, params, atts);
 
 function onYouTubePlayerReady(playerId) {
@@ -48,7 +51,8 @@ function stateChangeCallBack(i){
   // YT.PlayerState.PAUSED
   // YT.PlayerState.BUFFERING
   // YT.PlayerState.CUED
-  console.log("on state change: " + i);
+
+  console.log("YouTube state change: " + i);
   switch(i) {
     case YT.PlayerState.PLAYING:
       playing = true;
@@ -64,5 +68,11 @@ function stateChangeCallBack(i){
 }
 
 function loadNextVideoFromQueue(){
-  console.log(queue.shift());
+  if(queue) {
+    var song = queue.shift();
+    console.log(song);
+    console.log(ytplayer.loadPlaylist({list: song.name + " " + song.artist, listType: "search"}));
+  } else {
+    console.log("Error: queue from server is empty");
+  }
 }
