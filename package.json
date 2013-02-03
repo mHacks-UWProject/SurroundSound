@@ -16,7 +16,8 @@
     "node-gcm": "*",
     "randomstring": "*",
     "async": "*",
-    "cheerio": "*"
+    "cheerio": "*",
+    "nodetime": "*"
   },
   "engines": {
     "node": "0.8.x",
