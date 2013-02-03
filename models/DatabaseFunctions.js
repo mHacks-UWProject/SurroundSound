@@ -35,12 +35,12 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 					var duplicate = false;
 					console.log("outside lounge artists")
 					console.log(loungeArtists.length)
-					for(var i = 0; i < loungeArtists.length; i++){
+					for(var a = 0; a < loungeArtists.length; a++){
 						console.log("Lounge artists infinite")
-						if(loungeArtists[i].name == correctedName){
+						if(loungeArtists[a].name == correctedName){
 							var registered = false;
-							for (var i=0; i<lounge.devIds.length; i++){
-								if (genId == lounge.devIds[i].genId)
+							for (var j=0; j<lounge.devIds.length; j++){
+								if (genId == lounge.devIds[j].genId)
 									registered = true;
 							};
 							if (!registered){
