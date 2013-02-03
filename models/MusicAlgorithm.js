@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var RAND_MAX = 5;
 
 exports.getNextSong = function(lounge){
-	var Lounge = mongoose.model('Lounge');
 	var nextSong;
 	
 	// get random number
