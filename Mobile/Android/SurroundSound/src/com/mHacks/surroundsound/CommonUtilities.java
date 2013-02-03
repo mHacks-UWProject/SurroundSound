@@ -2,6 +2,7 @@ package com.mHacks.surroundsound;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 public final class CommonUtilities {
@@ -16,12 +17,12 @@ public final class CommonUtilities {
 	/**
 	 * Tag used on log messages.
 	 */
-	static final String TAG = "PebbleStock";
+	static final String TAG = "SurroundSound GCM";
 
 	/**
 	 * Intent used to display a message in the screen.
 	 */
-	static final String DISPLAY_MESSAGE_ACTION = "com.pebble.Stocks.DISPLAY_MESSAGE";
+	static final String DISPLAY_MESSAGE_ACTION = "com.mHacks.surroundsound.DISPLAY_MESSAGE";
 
 	/**
 	 * Intent's extra that contains the message to be displayed.
@@ -42,6 +43,7 @@ public final class CommonUtilities {
 	static void displayMessage(Context context, String message) {
 		Intent intent = new Intent(DISPLAY_MESSAGE_ACTION);
 		intent.putExtra("message", message);
+		//Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 		context.sendBroadcast(intent);
 	}
 }

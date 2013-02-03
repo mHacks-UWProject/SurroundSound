@@ -18,8 +18,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,7 +29,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -39,7 +36,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.mHacks.surroundsound.models.LoungeObect;
 import com.mHacks.surroundsound.utils.LoungeListAdapter;
-import com.mHacks.surroundsound.utils.MyLocationListener;
 import com.mHacks.surroundsound.web.AsyncHttpPost;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -71,6 +67,7 @@ public class LoungeListActivity extends Activity {
 		c = this;
 
 		
+
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		getArtists();
 
@@ -108,10 +105,15 @@ public class LoungeListActivity extends Activity {
 			e.printStackTrace();
 		}
 
+		try {
 		if (jArray.length() != 0) {
 			lounges.clear();
 		}
+		} catch (Exception e) {
+			lounges.clear();
+		}
 
+		try {
 		for (int i = 0; i < jArray.length(); i++) {
 
 			JSONObject newObject = null;
@@ -156,10 +158,12 @@ public class LoungeListActivity extends Activity {
 			try {
 				newLounge.setLoungeAlbumURL(newObject.getString("albumCover"));
 			} catch (Exception e) {
-				newLounge.setLoungeAlbumURL("null");
+				newLounge.setLoungeAlbumURL("http://i43.tower.com/images/mm113753524/for-lack-better-name-deadmau5-cd-cover-art.jpg");
 			}
 
 			lounges.add(newLounge);
+		} } catch (Exception e) {
+			// TODO: handle exception
 		}
 
 		LoungeListAdapter adapter = new LoungeListAdapter(this,
@@ -189,6 +193,9 @@ public class LoungeListActivity extends Activity {
 						"http://surroundsound.herokuapp.com/postArtists");
 
 				Intent intent = new Intent(c, LoungeActivity.class);
+				intent.putExtra("name", lounges.get(pos-1).getLoungeName());
+				intent.putExtra("loungeId", lounges.get(pos-1).getLoungeId());
+
 				startActivity(intent);
 			}
 		});
@@ -226,12 +233,12 @@ public class LoungeListActivity extends Activity {
 
 	private void setupGeoLoc() {
 		/* Use the LocationManager class to obtain GPS locations */
-		LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-		LocationListener mlocListener = new MyLocationListener(
-				this.getApplicationContext(), this);
-		mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-				mlocListener);
+//		LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//
+//		LocationListener mlocListener = new MyLocationListener(
+//				this.getApplicationContext(), this);
+//		mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+//				mlocListener);
 	}
 
 	private class GetDataTask extends AsyncTask<Void, Void, String[]> {
@@ -256,19 +263,19 @@ public class LoungeListActivity extends Activity {
 			mRegisterTask.cancel(true);
 		}
 		unregisterReceiver(mHandleMessageReceiver);
-		GCMRegistrar.onDestroy(this);
+		GCMRegistrar.onDestroy(getApplicationContext());
 		super.onDestroy();
 	}
 	
 	//This is the broadcastreceiver. Technically, it would handle the watch broadcasts as well. I just don't have anything handling that right now.
 	
-	//Id check if we had an intent with an extra called "pebblemessage" then launch that side of the code if there was.
+	//Id check if we had an intent with an extra called "surroundmessage" then launch that side of the code if there was.
 	private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String newMessage = intent.getExtras().getString("message");
+			Log.d("GCM GOT", newMessage);
 			if (newMessage.contains("update")) {
-			//	UpdateStocks();
 				// Toast.makeText(c, "UPDATE", Toast.LENGTH_SHORT).show();
 			} else if (!newMessage.contains("nothing")
 					&& !newMessage.contains("register")
@@ -278,8 +285,8 @@ public class LoungeListActivity extends Activity {
 				registered(newMessage);
 			}
 			// mDisplay.append("YAY!" + "\n");
-		}
-	};
+		} 
+	};	
 
 	private void checkNotNull(Object reference, String name) {
 		if (reference == null) {
@@ -299,21 +306,25 @@ public class LoungeListActivity extends Activity {
 	private void registerGCM() {
 		checkNotNull(SERVER_URL, "SERVER_URL");
 		checkNotNull(SENDER_ID, "SENDER_ID");
+		GCMRegistrar.checkDevice(getApplicationContext());
+		
+		GCMRegistrar.checkManifest(getApplicationContext());
+
 		// Make sure the device has the proper dependencies.
-		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkDevice(getApplicationContext());
 		// Make sure the manifest was properly set - comment out this line
 		// while developing the app, then uncomment it when it's ready.
-		GCMRegistrar.checkManifest(this);
+		GCMRegistrar.checkManifest(getApplicationContext());
 		// mDisplay = (TextView) findViewById(R.id.display);
 		registerReceiver(mHandleMessageReceiver, new IntentFilter(
 				DISPLAY_MESSAGE_ACTION));
-		final String regId = GCMRegistrar.getRegistrationId(this);
+		final String regId = GCMRegistrar.getRegistrationId(getApplicationContext());
 		if (regId.equals("")) {
 			// Automatically registers application on startup.
-			GCMRegistrar.register(this, SENDER_ID);
+			GCMRegistrar.register(getApplicationContext(), SENDER_ID);
 		} else {
 			// Device is already registered on GCM, check server.
-			if (GCMRegistrar.isRegisteredOnServer(this)) {
+			if (GCMRegistrar.isRegisteredOnServer(getApplicationContext())) {
 				// Skips registration.
 				// mDisplay.append(getString(R.string.already_registered) +
 				// "\n");
@@ -335,7 +346,7 @@ public class LoungeListActivity extends Activity {
 						// unregistered callback upon completion, but
 						// GCMIntentService.onUnregistered() will ignore it.
 						if (!registered) {
-							GCMRegistrar.unregister(context);
+							GCMRegistrar.unregister(getApplicationContext());
 						}
 						return null;
 					}
@@ -444,7 +455,7 @@ public class LoungeListActivity extends Activity {
 				@Override
 				protected void onPostExecute(String result) {
 
-					Toast.makeText(c, result, Toast.LENGTH_SHORT).show();
+					//Toast.makeText(c, result, Toast.LENGTH_SHORT).show();
 
 				};
 			};
