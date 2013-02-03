@@ -36,11 +36,18 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 					var duplicate = false;
 					for(var i = 0; i < loungeArtists.length; i++){
 						if(loungeArtists[i].name == correctedName){
-							updateArtistCounter(loungeId, artist.name, 1);
-							duplicate = true;
-							continue;
-						}
-					}
+							var registered = false;
+							for (var i=0; i<lounge.devIds; i++){
+								if (genId == lounge.devIds[i].genId)
+									registered = true;
+							};
+							if (!registered){
+								updateArtistCounter(loungeId, artist.name, 1);
+								duplicate = true;
+								continue;
+							};
+						};
+					};
 					if (!duplicate) {
 						var topTracks = [];
 						for(var i = 0; i < tracks.length; i++){
@@ -54,12 +61,12 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 							dislikes: 0
 						});
 						lounge.save();
-					}	
-				}
+					};	
+				};
 			});
-		}
+		};
 	});
-}
+};
 
 exports.newLounge = function (user) {
 	var lounge = new Lounge({user: user.id, geolocation: [42.280681,-83.733818], active: true});
@@ -144,7 +151,7 @@ exports.nextSong = function(id, res){
 	var queueResults;
 	
 	Lounge.findById(id, function(err, lounge){
-		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.track, img: ""});
+		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
 		res.send(lounge.queue);
 		for (var i = 0; i < lounge.devIds.length; i++) {
 			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
