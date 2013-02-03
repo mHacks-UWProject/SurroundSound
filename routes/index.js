@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var Lounge = mongoose.model("Lounge");
 var User = mongoose.model("User");
 var gcmHelpers = require("../gcmHelpers.js");
-
+var randomstring = require("randomstring")
 exports.index = function(req, res){
   res.render('dj', { title: 'DJ Stuff' });
 };

@@ -13,7 +13,8 @@
     "passport": "*",
     "passport-local": "*",
     "request": "*",
-    "node-gcm": "*"
+    "node-gcm": "*",
+    "randomstring": "*"
   },
   "engines": {
     "node": "0.8.x",
