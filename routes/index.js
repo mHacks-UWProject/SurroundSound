@@ -84,15 +84,14 @@ exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
 	if (req.body['devId'] != "") {
 		deviceModel.update({devId: req.body['devId']}, {regId: req.body['regId']});
-		//gcmHelpers.sendId(+
-		//	req.body['genId'], [req.body['regId']]);
-		res.send(req.body['devId'])
+		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
+		//res.send(req.body['devId'])
 	} else {
 		var newId = randomstring.generate();
 		var newDevice = new deviceModel({devId: newId, regId: req.body['regId'], stock: ""});
 		newDevice.save();
-		//gcmHelpers.sendId(newId, [req.body['regId']]);
-		res.send(newId);
+		gcmHelpers.sendId(newId, [req.body['regId']]);
+		//res.send(newId);
 	}
 	//if (typeof res.body != 'undefined' && res.body){
 	//}
