@@ -4,7 +4,7 @@ var RAND_MAX = 5;
 exports.getNextSong = function(loungeId){
 	var Lounge = mongoose.model('Lounge');
 	Lounge.findById(loungeId, function(err, lounge) {
-		if(!err){
+		if(!err && typeof lounge != 'undefined'){
 			var nextSong;
 			
 			// get random number
