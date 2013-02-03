@@ -11,3 +11,10 @@ exports.sendChanged = function(ids) {
 	})
 };
 
+exports.sendId = function(id, sendId) {
+	var idMessage = new gcm.Message();
+	idMessage.addData('message', id);
+	sender.send(idMessage, sendId, 4, function(err, result) {
+		console.log(result);
+	});
+};
