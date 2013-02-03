@@ -24,7 +24,6 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 
 		if (err) return
 		var loungeArtists = lounge.artists;
-					
 		for(var i = 0; i < jsonArtists.length; i++) {
 			var artistExists = false;
 			var artist = jsonArtists[i];
@@ -35,11 +34,11 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
 					var duplicate = false;
-					for(var i = 0; i < loungeArtists.length; i++){
-						if(loungeArtists[i].name == correctedName){
+					for(var a = 0; a < loungeArtists.length; a++){
+						if(loungeArtists[a].name == correctedName){
 							var registered = false;
-							for (var i=0; i<lounge.devIds; i++){
-								if (genId == lounge.devIds[i].genId)
+							for (var j=0; j<lounge.devIds.length; j++){
+								if (genId == lounge.devIds[j].genId)
 									registered = true;
 							};
 							if (!registered){
@@ -118,15 +117,17 @@ exports.queryLoungeInformation = function(loungeId){
 }
 
 exports.likeArtist = function(loungeId, artist) {
-	updateArtistCounter(artist, 1);
+	updateArtistCounter(loungeId, artist, 1);
 }
 
 exports.dislikeArtist = function(loungeId, artist) {
-	updateArtistCounter(artist, -1);
+	updateArtistCounter(loungeId, artist, -1);
 }
 
 function updateArtistCounter (loungeId, artist, increment){
+	console.log("Update Artist!!", loungeId);
 	Lounge.findById(loungeId, function(err, lounge) {
+		if (err) return;
 		var artists = lounge.artists;
 		for(var i = 0; i < artists.length; i++) {
 			if(artists[i].name == artist){
@@ -158,12 +159,14 @@ exports.nextSong = function(id, res){
 	var queueResults;
 	
 	Lounge.findById(id, function(err, lounge){
-		if(!err && lounge != undefined){
-			lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: nextSong.albumImage});
-			res.send(lounge.queue);
-			for (var i = 0; i < lounge.devIds.length; i++) {
-				gcmHelpers.sendChanged([lounge.devIds[i].regId]);
-			}
+		if (!err && lounge == undefined) {
+			lounge.queue = [];
+			lounge.save();
+		}
+		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: nextSong.albumImage});
+		res.send(lounge.queue);
+		for (var i = 0; i < lounge.devIds.length; i++) {
+			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
 		}
 	});	
 }

@@ -42,9 +42,10 @@ exports.createUser = function(req, res) {
 
 
 exports.dj = function(req,res) {
-	var User = mongoose.model("User");
-	var user = User.update({name: req.user.name}, {active: true});
-	Lounge.update({user: user.id}, {active: true});
+	//var User = mongoose.model("User");
+	//User.update({username: req.user.name}, {active: true}, function(err, user) {
+	//	Lounge.update({user: user.id}, {active: true});
+	//});
 	res.render('dj', { title: 'DJ' });
 };
 
@@ -68,7 +69,8 @@ exports.updateLounge = function(req, res) {
 }
 exports.queryLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
-	 	res.send(lounge);
+	 	if (err) res.send(err)
+	 	res.send(lounge.queue);
 	 });
 };
 
@@ -84,9 +86,9 @@ exports.requestSong = function(req, res) {
 }
 exports.vote = function(req, res) {
 	if (req.body.vote == "up")
-		database.likeArtist(req.id, req.artist)
+		database.likeArtist(req.body.id, req.artist)
 	else if (req.body.vote == "down")
-		database.dislikeArtist(req.id, req.artist)
+		database.dislikeArtist(req.body.id, req.artist)
 	res.send("voted");
 }
 
@@ -99,7 +101,7 @@ exports.registerGCM = function(req, res) {
 		//res.send(req.body['devId'])
 	} else {
 		var newId = randomstring.generate();
-		console.log(newId)
+		console.log("OMG", newId)
 		var newDevice = new deviceModel({genId: newId, regId: req.body['regId']});
 		newDevice.save();
 		gcmHelpers.sendId(newId, [req.body['regId']]);
@@ -133,7 +135,7 @@ function getYouTubeUrl(song, callback){
 
 exports.nextSong = function(req, res) {
 	var songs = Lounge.find({user: req.user.id}, function(err, lounge) {
-		database.nextSong(req.user.id, res);
+		database.nextSong(lounge.id, res);
 	})
 
   async.forEach(songs, getYouTubeUrl, function(err){
