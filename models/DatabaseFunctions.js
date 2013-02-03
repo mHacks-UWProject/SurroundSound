@@ -33,6 +33,8 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
 					var duplicate = false;
+					console.log("outside lounge artists")
+					console.log(loungeArtists.length)
 					for(var i = 0; i < loungeArtists.length; i++){
 						console.log("Lounge artists infinite")
 						if(loungeArtists[i].name == correctedName){
