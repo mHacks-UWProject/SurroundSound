@@ -100,7 +100,7 @@ exports.registerGCM = function(req, res) {
 		//res.send(req.body['devId'])
 	} else {
 		var newId = randomstring.generate();
-		console.log(newId)
+		console.log("OMG", newId)
 		var newDevice = new deviceModel({genId: newId, regId: req.body['regId']});
 		newDevice.save();
 		gcmHelpers.sendId(newId, [req.body['regId']]);

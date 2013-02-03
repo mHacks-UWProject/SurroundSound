@@ -119,7 +119,7 @@ exports.dislikeArtist = function(loungeId, artist) {
 }
 
 function updateArtistCounter (loungeId, artist, increment){
-	console.log(loungeId);
+	console.log("Update Artist!!", loungeId);
 	Lounge.findById(loungeId, function(err, lounge) {
 		if (err) return
 		var artists = lounge.artists;
