@@ -13,38 +13,36 @@ exports.importData = function (jsonArtists, loungeId) {
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	
 	var lounge = Lounge.find({_id: loungeId});
-	
+	var loungeArtists = lounge.artists;
+				
 	for(var artist in jsonArtists.d) {
-		getCorrection += artist + getAPIKey;
+		var artistExists = false;
 		
+		getCorrection += artist + getAPIKey;
 		request(getTopTracks, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				/*
 				var correctedName = body.toptracks.track[0].artist.name;
-				ArtistModel.find({name: correctedName},  function (err, docs){
-					if(err || typeof docs == 'undefined'){
-						
-						var topTracks = [];
-						
-						for(var track in body.toptracks.track){
-							topTracks.push(track.name);
-						}
-						
+
+				for(var loungeArtist in loungeArtists){
+					if(loungeArtist.name == correctedName){
+						updateArtistCounter(artist.name, 1);
+						continue;
 					}
-				});
+				}
 				
-				// push to db
-				var artist = new ArtistModel({
-					name: correctedName,
-					topSongs: topTracks
-				});
+				var topTracks = [];
 				
-				ArtistModel.update({ name: artist.name}, 
-					{name: artist.name, topSoungs: artis.topSongs}, 
-					{upsert: true});
+				for(var track in body.toptracks.track){
+					topTracks.push(track.name);
+				}
 					
-				updateArtistCounter(artist.name, 1);
-				*/
+				lounge.artist.push({
+					name: correctedName,
+					topSongs: topTracks,
+					count: 1,
+					likes: 0,
+					dislikes: 0
+				});
 			}
 		});
 	}
