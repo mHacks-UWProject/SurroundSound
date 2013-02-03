@@ -44,7 +44,9 @@ exports.dj = function(req,res) {
 };
 
 exports.postArtists = function(req, res){
+	console.log(req.body);
 	database.importData(req.body.artists, req.body.id);
+	res.send("success");
 };
 
 exports.newLounge = function(req, res){

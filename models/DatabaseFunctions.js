@@ -15,7 +15,7 @@ exports.importData = function (jsonArtists, loungeId) {
 	var lounge = Lounge.find({_id: loungeId});
 	var loungeArtists = lounge.artists;
 				
-	for(var artist in jsonArtists.d) {
+	for(var artist in jsonArtists) {
 		var artistExists = false;
 		
 		getCorrection += artist + getAPIKey;
