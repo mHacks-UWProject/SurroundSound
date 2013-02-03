@@ -159,7 +159,7 @@ exports.nextSong = function(id, res){
 	
 	Lounge.findById(id, function(err, lounge){
 		if(!err && lounge != undefined){
-			lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
+			lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: nextSong.albumImage});
 			res.send(lounge.queue);
 			for (var i = 0; i < lounge.devIds.length; i++) {
 				gcmHelpers.sendChanged([lounge.devIds[i].regId]);

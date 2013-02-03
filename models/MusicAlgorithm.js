@@ -31,7 +31,7 @@ exports.getNextSong = function(loungeId){
 						}
 					}
 					var highArtist = lounge.artists[highest]
-					nextSong = {artist: highArtist, song: lounge.artists[highest].topSongs[Math.random() * lounge.artists[highest].length]};
+					nextSong = {artist: highArtist, song: lounge.artists[highest].topSongs[Math.random() * lounge.artists[highest].length], albumImage: lounge.artists[highest].albumImage};
 				}
 			}
 		}
