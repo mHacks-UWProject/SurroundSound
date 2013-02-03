@@ -10,6 +10,8 @@ public class LoungeObect {
 	
 	private String loungeId = null;
 	
+	private String loungeAlbumURL = null;
+	
 	private String submittedPassword = null;
 
 	public String getLoungeName() {
@@ -50,6 +52,14 @@ public class LoungeObect {
 
 	public void setLoungeId(String loungeId) {
 		this.loungeId = loungeId;
+	}
+
+	public String getLoungeAlbumURL() {
+		return loungeAlbumURL;
+	}
+
+	public void setLoungeAlbumURL(String loungeAlbumURL) {
+		this.loungeAlbumURL = loungeAlbumURL;
 	}
 
 	

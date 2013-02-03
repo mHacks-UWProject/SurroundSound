@@ -9,6 +9,8 @@ public class QueueObject {
 	private String id;
 	
 	private String imageURL;
+	
+	private int score = 0;
 
 	public String getSongName() {
 		return songName;
@@ -40,6 +42,14 @@ public class QueueObject {
 
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 	

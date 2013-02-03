@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="fill_parent"
@@ -18,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
            android:layout_margin="9dp"
-            android:text="@string/loungelist_title"
+            android:text="Artists"
             android:gravity="center_horizontal"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -31,13 +33,10 @@
 
     </LinearLayout>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <ListView
         android:id="@+id/listView1"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/layout" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
-
-</RelativeLayout>
+</LinearLayout>

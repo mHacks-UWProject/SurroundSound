@@ -51,14 +51,14 @@ public class MyLocationListener implements LocationListener {
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Toast.makeText(c.getApplicationContext(), "Gps Disabled",
-				Toast.LENGTH_SHORT).show();
+//		Toast.makeText(c.getApplicationContext(), "Gps Disabled",
+//				Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Toast.makeText(c.getApplicationContext(), "Gps Enabled",
-				Toast.LENGTH_SHORT).show();
+//		Toast.makeText(c.getApplicationContext(), "Gps Enabled",
+//				Toast.LENGTH_SHORT).show();
 
 	}
 

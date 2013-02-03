@@ -14,7 +14,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
-public class LoungeActivity extends Activity{
+public class CopyOfLoungeActivity extends Activity{
 
 	private ArrayList<QueueObject> x = new ArrayList<QueueObject>();
 
