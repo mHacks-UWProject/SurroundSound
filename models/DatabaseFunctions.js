@@ -154,19 +154,22 @@ exports.recommendSong = function(songJson, loungeId) {
 	
 }
 
-exports.nextSong = function(id, res){
-	var nextSong = musicAlgorithm.getNextSong();
-	var queueResults;
+exports.nextSong = function(lounge, res){
+	var song = musicAlgorithm.getNextSong(lounge);
 	
-	Lounge.findById(id, function(err, lounge){
-		if (!err && lounge == undefined) {
-			lounge.queue = [];
-			lounge.save();
-		}
-		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
-		res.send(lounge.queue);
+	if(song) {
+		lounge.queue ?
+			lounge.queue.slice(1).push(song):
+			lounge.queue = [song];
+
+		lounge.save();
+
 		for (var i = 0; i < lounge.devIds.length; i++) {
 			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
 		}
-	});	
+
+		res.send(lounge.queue);
+	} else {
+		res.send([]);
+	}
 }

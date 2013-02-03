@@ -134,8 +134,10 @@ function getYouTubeUrl(song, callback){
 }
 
 exports.nextSong = function(req, res) {
+	console.log("User id: " + req.user.id);
 	var songs = Lounge.find({user: req.user.id}, function(err, lounge) {
-		database.nextSong(lounge.id, res);
+		console.log("Lounge id: " + lounge);
+		database.nextSong(lounge, res);
 	})
 
   async.forEach(songs, getYouTubeUrl, function(err){
