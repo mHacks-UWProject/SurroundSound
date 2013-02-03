@@ -11,7 +11,9 @@ exports.getNextSong = function(lounge){
 	//if selecting requested item or not
 	if(randNum == 0 && lounge.requested.length > 0 ){
 		nextSong = lounge.requested.shift();
-	} else {
+	} 
+	
+	if(!nextSong){
 		// get non requested song based on algorithm
 
 		if(lounge.artists != undefined){
@@ -30,7 +32,8 @@ exports.getNextSong = function(lounge){
 				}
 			}
 			var highArtist = lounge.artists[highest]
-			nextSong = {artist: highArtist, song: lounge.artists[highest].topSongs[Math.random() * lounge.artists[highest].length]};
+			nextSong = {artist: highArtist, song: lounge.artists[highest].topSongs[Math.random() * lounge.artists[highest].length], img: lounge.artists[highest].img};
 		}
 	}
+	return nextSong;
 }

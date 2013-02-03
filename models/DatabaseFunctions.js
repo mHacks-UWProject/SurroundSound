@@ -61,7 +61,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 						lounge.artists.push({
 							name: correctedName,
 							topSongs: topTracks,
-							albumImage: albumArt,
+							img: albumArt,
 							count: 1,
 							likes: 0,
 							dislikes: 0
