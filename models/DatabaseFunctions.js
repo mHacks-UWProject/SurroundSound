@@ -24,8 +24,8 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 
 		if (err) return
 		var loungeArtists = lounge.artists;
-					
 		for(var i = 0; i < jsonArtists.length; i++) {
+			console.log("Json artists infinite")
 			var artistExists = false;
 			var artist = jsonArtists[i];
 			var getCorrection = getTopTracks + artist + getAPIKey;
@@ -42,7 +42,6 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 									registered = true;
 							};
 							if (!registered){
-								console.log("importing data thing");
 								updateArtistCounter(loungeId, artist.name, 1);
 								duplicate = true;
 								continue;

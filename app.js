@@ -1,4 +1,4 @@
-require('nodetime').profile()
+//require('nodetime').profile()
 
 /**
  * Module dependencies.
