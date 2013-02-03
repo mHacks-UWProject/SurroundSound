@@ -68,6 +68,7 @@ exports.updateLounge = function(req, res) {
 }
 exports.queryLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
+	 	if (err) res.send(err)
 	 	res.send(lounge);
 	 });
 };
