@@ -9,7 +9,7 @@ var MAX_QUEUE_ITEMS = 5;
 
 exports.importData = function (jsonArtists, loungeId, genId) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
-	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
+	var getAPIKey = "&autocorrect=1&limit=5&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	console.log("ID!!!!", loungeId)
 	Lounge.findById(loungeId, function(err, lounge) {
 		console.log("GENID", genId)
@@ -24,7 +24,6 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 
 		if (err) return
 		var loungeArtists = lounge.artists;
-					
 		for(var i = 0; i < jsonArtists.length; i++) {
 			var artistExists = false;
 			var artist = jsonArtists[i];
@@ -34,11 +33,11 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
 					var duplicate = false;
-					for(var i = 0; i < loungeArtists.length; i++){
-						if(loungeArtists[i].name == correctedName){
+					for(var a = 0; a < loungeArtists.length; a++){
+						if(loungeArtists[a].name == correctedName){
 							var registered = false;
-							for (var i=0; i<lounge.devIds; i++){
-								if (genId == lounge.devIds[i].genId)
+							for (var j=0; j<lounge.devIds.length; j++){
+								if (genId == lounge.devIds[j].genId)
 									registered = true;
 							};
 							if (!registered){
@@ -50,12 +49,14 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 					};
 					if (!duplicate) {
 						var topTracks = [];
+						var albumArt = tracks[1]["#text"];
 						for(var i = 0; i < tracks.length; i++){
 							topTracks.push(tracks[i].name);
 						}
 						lounge.artists.push({
 							name: correctedName,
 							topSongs: topTracks,
+							img: albumArt,
 							count: 1,
 							likes: 0,
 							dislikes: 0
@@ -68,8 +69,9 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 	});
 };
 
-exports.newLounge = function (user) {
-	var lounge = new Lounge({user: user.id, geolocation: [42.280681,-83.733818], active: true});
+exports.newLounge = function (data) {
+	console.log("NEW LOUNGE ", data)
+	var lounge = new Lounge(data);
 	lounge.save();
 	return lounge;
 }
@@ -95,7 +97,7 @@ exports.queryLounges = function(location, res) {
 			for (var i = 0; i < lounges.length; i++) {
 				//if (lounges.active)
 				var lounge = lounges[i];
-				lounge.nowPlaying = lounges[i].queue[0];
+				//lounge.nowPlaying = lounges[i].queue[0];
 				actives.push(lounge);
 			};
 			res.send(actives);
@@ -111,15 +113,17 @@ exports.queryLoungeInformation = function(loungeId){
 }
 
 exports.likeArtist = function(loungeId, artist) {
-	updateArtistCounter(artist, 1);
+	updateArtistCounter(loungeId, artist, 1);
 }
 
 exports.dislikeArtist = function(loungeId, artist) {
-	updateArtistCounter(artist, -1);
+	updateArtistCounter(loungeId, artist, -1);
 }
 
 function updateArtistCounter (loungeId, artist, increment){
+	console.log("Update Artist!!", loungeId);
 	Lounge.findById(loungeId, function(err, lounge) {
+		if (err) return;
 		var artists = lounge.artists;
 		for(var i = 0; i < artists.length; i++) {
 			if(artists[i].name == artist){
@@ -146,15 +150,22 @@ exports.recommendSong = function(songJson, loungeId) {
 	
 }
 
-exports.nextSong = function(id, res){
-	var nextSong = musicAlgorithm.getNextSong();
-	var queueResults;
+exports.nextSong = function(lounge){
+	var song = musicAlgorithm.getNextSong(lounge);
 	
-	Lounge.findById(id, function(err, lounge){
-		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
-		res.send(lounge.queue);
+	if(song) {
+		lounge.queue ?
+			lounge.queue.slice(1).push(song):
+			lounge.queue = [song];
+
+		lounge.save();
+
 		for (var i = 0; i < lounge.devIds.length; i++) {
 			gcmHelpers.sendChanged([lounge.devIds[i].regId]);
 		}
-	});	
+
+		return lounge.queue;
+	} else {
+		return [];
+	}
 }

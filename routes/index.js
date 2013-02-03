@@ -29,22 +29,23 @@ exports.register = function(req, res) {
 exports.createUser = function(req, res) {
 	if (req.body.password == req.body.confirmpassword) {
 		var user = database.newUser({username: req.body.username, password: req.body.password, email: req.body.email});
-		database.newLounge(user);
+		//database.newLounge(user);
 		req.login(user, function(err) {
 			if (err) return next(err); 
-			return res.redirect('/createLounge');
+			return res.render('new_lounge', {title: "Create Lounge"});
 		});
 	} else {
-		res.send(400);
+		res.redirect("register", {title: "Register"});
 	}
 	
 };
 
 
 exports.dj = function(req,res) {
-	var User = mongoose.model("User");
-	var user = User.update({name: req.user.name}, {active: true});
-	Lounge.update({user: user.id}, {active: true});
+	//var User = mongoose.model("User");
+	//User.update({username: req.user.name}, {active: true}, function(err, user) {
+	//	Lounge.update({user: user.id}, {active: true});
+	//});
 	res.render('dj', { title: 'DJ' });
 };
 
@@ -58,9 +59,11 @@ exports.newLounge = function(req, res){
 };
 
 exports.createLounge = function(req, res){
-	User.find({name: req.user.name}, function(err, user) {
+	console.log("Creating lounge")
+	User.find({name: req.user.username}, function(err, user) {
+		console.log("calling new lounge");
 		database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.geolocation, loungePassword: req.body.password});
-		res.redirect("/dj");
+		res.render("dj", {title: 'DJ'});
 	});
 };
 exports.updateLounge = function(req, res) {
@@ -68,7 +71,8 @@ exports.updateLounge = function(req, res) {
 }
 exports.queryLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
-	 	res.send(lounge);
+	 	if (err) res.send(err)
+	 	res.send(lounge.queue);
 	 });
 };
 
@@ -84,9 +88,9 @@ exports.requestSong = function(req, res) {
 }
 exports.vote = function(req, res) {
 	if (req.body.vote == "up")
-		database.likeArtist(req.id, req.artist)
+		database.likeArtist(req.body.id, req.artist)
 	else if (req.body.vote == "down")
-		database.dislikeArtist(req.id, req.artist)
+		database.dislikeArtist(req.body.id, req.artist)
 	res.send("voted");
 }
 
@@ -99,7 +103,7 @@ exports.registerGCM = function(req, res) {
 		//res.send(req.body['devId'])
 	} else {
 		var newId = randomstring.generate();
-		console.log(newId)
+		console.log("OMG", newId)
 		var newDevice = new deviceModel({genId: newId, regId: req.body['regId']});
 		newDevice.save();
 		gcmHelpers.sendId(newId, [req.body['regId']]);
@@ -132,14 +136,16 @@ function getYouTubeUrl(song, callback){
 }
 
 exports.nextSong = function(req, res) {
-	var songs = Lounge.find({user: req.user.id}, function(err, lounge) {
-		database.nextSong(req.user.id, res);
-	})
+	var songs;
 
-  async.forEach(songs, getYouTubeUrl, function(err){
-    if(err)
-      console.log("For each error: " + err);
+	Lounge.find({user: req.user.id}, function(err, lounge) {
+		songs = database.nextSong(lounge);
 
-    res.send(songs);
-  });
+    async.forEach(songs, getYouTubeUrl, function(err){
+      if(err)
+        console.log("For each error: " + err);
+
+      res.send(songs);
+    });
+	});
 };

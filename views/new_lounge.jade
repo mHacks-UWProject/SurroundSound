@@ -8,11 +8,11 @@ block head
 block content
   .container
     .row
-      form.span8.form-new-lounge(method="POST", action="/login")
+      form.span8.form-new-lounge(method="POST", action="/createLounge")
         h2.form-new-lounge-heading Create a new Lounge
         .row
           .span4
-            input.input-block-level(type='text', name="username", placeholder='Name')
+            input.input-block-level(type='text', name="name", placeholder='Name')
             input.input-block-level(type='password', name="password", placeholder='Password (Optional)')
             input#location.input-block-level(type='text', name="location", placeholder='Location')
             input#long(type="hidden", name="geolocation[0]")

@@ -1,5 +1,5 @@
 $(function(){
-	$("#queue").sortable();
+  queueList = $("#queue");
 
   $("#play").click(function(){
     if(playing)
@@ -19,10 +19,12 @@ var ytplayer
   , params = { allowScriptAccess: "always" }
   , atts = { id: "myytplayer" }
   , playing = false
-  , queue;
+  , queue
+  , queueList;
 
 $.get("/nextSong", function(data){
-  console.log("Data recieved: " + data);
+  console.log("Data recieved: ");
+  console.log(data);
   queue = data;
 })
 
@@ -35,13 +37,7 @@ function onYouTubePlayerReady(playerId) {
   ytplayer = document.getElementById("myytplayer");
   ytplayer.addEventListener("onStateChange", "stateChangeCallBack");
 
-  ytplayer.loadVideoById("bHQqvYy5KYo", 5, "large");
-  
-  // ytplayer.loadPlaylist({listType: 'search',
-  //             list: 'Green Day Holiday'
-  //             // index: 0,
-  //             // startSeconds: 0,
-  //             /*suggestedQuality: 'best'*/});
+  loadNextVideoFromQueue();
 }
 
 function stateChangeCallBack(i){
@@ -69,10 +65,27 @@ function stateChangeCallBack(i){
 
 function loadNextVideoFromQueue(){
   if(queue) {
-    var song = queue.shift();
+    if(queue.length > 0) {
+      var song = queue.shift();
+      ytplayer.loadVideoByUrl(song.url, 0, "large");
+      updateQueueDisplay();
+    } else {
+      displayEmptyQueue();
+    }
     console.log(song);
-    console.log(ytplayer.loadPlaylist({list: song.name + " " + song.artist, listType: "search"}));
   } else {
     console.log("Error: queue from server is empty");
   }
+}
+
+function displayEmptyQueue(){
+  console.log(queueList.find("li"));
+  queueList.find("li").remove();
+  // queueList.insertInto($("<div class='well well-small'>Nope</div>"));
+}
+
+function updateQueueDisplay(){
+  queue.forEach(function(song){
+    $("<li>" + song.song + "</li>").appendTo(queueList);
+  });
 }
