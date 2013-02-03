@@ -32,10 +32,10 @@ exports.createUser = function(req, res) {
 		database.newLounge(user);
 		req.login(user, function(err) {
 			if (err) return next(err); 
-			return res.redirect('/createLounge');
+			return res.render('new_lounge', {title: "Create Lounge"});
 		});
 	} else {
-		res.send(400);
+		res.redirect("register", {title: "Register"});
 	}
 	
 };
@@ -61,7 +61,7 @@ exports.newLounge = function(req, res){
 exports.createLounge = function(req, res){
 	User.find({name: req.user.name}, function(err, user) {
 		database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.geolocation, loungePassword: req.body.password});
-		res.render("/dj");
+		res.render("dj", {title: 'DJ'});
 	});
 };
 exports.updateLounge = function(req, res) {
