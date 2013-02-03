@@ -16,7 +16,7 @@ var LoungeSchema = mongoose.Schema({
 	queue:[{song: String, artist: String, img: String}],
 	user: ObjectId,
 	active: Boolean,
-	devIds: [{genId: String, regId: String]
+	devIds: [{genId: String, regId: String}]
 	});
 
 var UserSchema = mongoose.Schema({
