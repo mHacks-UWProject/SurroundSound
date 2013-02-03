@@ -37,7 +37,7 @@ function onYouTubePlayerReady(playerId) {
   ytplayer = document.getElementById("myytplayer");
   ytplayer.addEventListener("onStateChange", "stateChangeCallBack");
 
-  ytplayer.loadVideoById("bHQqvYy5KYo", 5, "large");
+  loadNextVideoFromQueue();
 }
 
 function stateChangeCallBack(i){
