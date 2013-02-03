@@ -124,14 +124,15 @@ exports.recommendSong = function(songJson, loungeId) {
 	requested.push({song: songJson.track, artist: songJson.artist});
 }
 
-exports.popAndUpdateQueue = function(){
-	/*var nextSong = musicAlgorithm.getNextSong();
+exports.popAndUpdateQueue = function(id){
+	var nextSong = musicAlgorithm.getNextSong();
 	var queueResults;
-	Queue.find(null, function(err, res){ 
-		queueResults = res;
-	});
 	
-	if(queueResults.count() == 0) {
+	Lounge.findById(id, function(err, lounge){
+		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.track, img: ""});
+	});
+
+	/*if(queueResults.count() == 0) {
 		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
 			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: i });
 			queueItem.save();
