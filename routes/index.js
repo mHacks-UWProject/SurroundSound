@@ -32,10 +32,10 @@ exports.createUser = function(req, res) {
 		database.newLounge(user);
 		req.login(user, function(err) {
 			if (err) return next(err); 
-			return res.redirect('/createLounge');
+			return res.render('new_lounge', {title: "Create Lounge"});
 		});
 	} else {
-		res.redirect("/register");
+		res.redirect("register", {title: "Register"});
 	}
 	
 };
