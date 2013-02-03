@@ -15,7 +15,7 @@ exports.getNextSong = function(loungeId){
 				nextSong = lounge.requested.shift();
 			} else {
 				// get non requested song based on algorithm
-				if(typeof lounge.artists != 'undefined'){
+				if(typeof loungeId.artists != 'undefined'){
 					var artists = lounge.artists;
 					var artistScore = [];
 					for(var i = 0; i < artists.length; i++){
