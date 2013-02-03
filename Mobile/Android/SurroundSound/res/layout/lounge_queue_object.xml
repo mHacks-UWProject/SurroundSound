@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/queue_album_image"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="15dp"
+            android:layout_toLeftOf="@+id/queue_down_arrow"
             android:layout_toRightOf="@+id/queue_album_image"
-            android:gravity="center" >
+            android:gravity="center_vertical" >
 
             <TextView
                 android:id="@+id/queue_song_title"

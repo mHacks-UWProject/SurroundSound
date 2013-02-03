@@ -77,10 +77,10 @@ int id pull_to_refresh_progress 0x7f05002d
 int id pull_to_refresh_sub_text 0x7f05002f
 int id pull_to_refresh_text 0x7f05002e
 int id queue_album_image 0x7f050022
-int id queue_artist_title 0x7f050024
-int id queue_down_arrow 0x7f050026
-int id queue_song_title 0x7f050023
-int id queue_up_arrow 0x7f050025
+int id queue_artist_title 0x7f050025
+int id queue_down_arrow 0x7f050023
+int id queue_song_title 0x7f050024
+int id queue_up_arrow 0x7f050026
 int id relativeLayout1 0x7f050012
 int id rotate 0x7f050007
 int id scrollView1 0x7f05000c

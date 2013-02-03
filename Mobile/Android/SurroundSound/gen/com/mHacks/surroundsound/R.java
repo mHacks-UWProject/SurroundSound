@@ -211,10 +211,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int pull_to_refresh_sub_text=0x7f05002f;
         public static final int pull_to_refresh_text=0x7f05002e;
         public static final int queue_album_image=0x7f050022;
-        public static final int queue_artist_title=0x7f050024;
-        public static final int queue_down_arrow=0x7f050026;
-        public static final int queue_song_title=0x7f050023;
-        public static final int queue_up_arrow=0x7f050025;
+        public static final int queue_artist_title=0x7f050025;
+        public static final int queue_down_arrow=0x7f050023;
+        public static final int queue_song_title=0x7f050024;
+        public static final int queue_up_arrow=0x7f050026;
         public static final int relativeLayout1=0x7f050012;
         public static final int rotate=0x7f050007;
         public static final int scrollView1=0x7f05000c;

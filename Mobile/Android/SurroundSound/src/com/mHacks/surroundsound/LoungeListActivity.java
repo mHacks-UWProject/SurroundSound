@@ -145,7 +145,7 @@ public class LoungeListActivity extends Activity {
 			}
 
 			try {
-				if (newObject.getString("loungePassword") == null
+				if (newObject.getString("submittedPassword") == null
 						|| newObject.getString("loungePassword") == "") {
 					newLounge.setLoungeLocked(false);
 				} else {

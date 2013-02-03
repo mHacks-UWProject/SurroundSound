@@ -31,7 +31,7 @@
             android:layout_below="@+id/lounge_title"
             android:layout_marginLeft="14dp"
             android:layout_marginTop="14dp"
-            android:src="@drawable/madeon_finale" />
+            android:src="@drawable/placeholder" />
 
         <TextView
             android:id="@+id/lounge_playing_artist"
@@ -118,6 +118,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="Coming Up:" />
+
     </RelativeLayout>
 
     <RelativeLayout

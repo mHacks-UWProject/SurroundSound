@@ -57,6 +57,7 @@ public class QueueListAdapter extends ArrayAdapter<QueueObject> {
 					.findViewById(R.id.queue_artist_title);
 			view.queue_icon = (ImageView) rowView
 					.findViewById(R.id.queue_album_image);
+
 			view.upView = (ImageView) rowView.findViewById(R.id.queue_up_arrow);
 			view.downView = (ImageView) rowView
 					.findViewById(R.id.queue_down_arrow);
@@ -117,7 +118,13 @@ public class QueueListAdapter extends ArrayAdapter<QueueObject> {
 		view.queue_item_artist.setText(item.getArtistName());
 
 		// Load in the background because why not.
-		imageLoader.displayImage(item.getImageURL(), view.queue_icon);
+		String imageURL = item.getImageURL();
+
+		if (imageURL.equals("") || imageURL == null) {
+			view.queue_icon.setImageDrawable(activity.getResources().getDrawable(R.drawable.placeholder));
+		} else {
+			imageLoader.displayImage(item.getImageURL(), view.queue_icon);
+		}
 
 		return rowView;
 	}
