@@ -16,6 +16,8 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 
 		mongoose.model('Device').find({genId: genId}, function(err, device) {
 			if (err) return
+			if (lounge.devIds)
+				lounge.devIds = [];
 			lounge.devIds.push({genId: genId, regId: device.regId});
 			lounge.save();
 		});
