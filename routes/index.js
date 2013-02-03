@@ -89,7 +89,7 @@ exports.vote = function(req, res) {
 
 exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
-	console.log("received", req.genId, " ", req.regId);
+	console.log("received", req.body['genId'], " ", req.body['regId']);
 	if (req.body['genId'] != "") {
 		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
 		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
