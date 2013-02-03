@@ -2,25 +2,24 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId
 
 var QueueSchema = mongoose.Schema({
-	artist: [ArtistSchema],
+	artist: String,
 	track: String,
 	position: Number
 	});
 
-
-var ArtistSchema = mongoose.Schema({
-	name: String,
-	genre: [String],
-	topSongs: [String]
-	});
-
+	
 var LoungeSchema = mongoose.Schema({
 	name: String,
 	geolocation: {type: [Number], index:'2d'},
 	queue: [String],
 	loungePassword: String,
-	artists: [ObjectId],
 	requested: [{song:String, artist:String, img:String}],
+	artists: [{ name: String,
+				topSongs: [String],
+				count: Number,
+				likes: Number,
+				dislikes: Number}],
+	queue:[{song: String, artist: String, img: String}],
 	user: ObjectId,
 	active: Boolean
 	});
@@ -41,7 +40,6 @@ var DeviceSchema = mongoose.Schema({
 LoungeSchema.index({geolocation: "2d"});
 
 mongoose.model('User', UserSchema);
-mongoose.model('Artist', ArtistSchema);
 mongoose.model('Lounge', LoungeSchema);
 mongoose.model('Queue', QueueSchema);
 mongoose.model('Device', DeviceSchema);

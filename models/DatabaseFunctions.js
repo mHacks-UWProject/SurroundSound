@@ -8,39 +8,44 @@ var User = mongoose.model('User')
 
 var MAX_QUEUE_ITEMS = 5;
 
-exports.importData = function (jsonArtists) {
+exports.importData = function (jsonArtists, loungeId) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=" +
 			"artist.gettoptracks&artist=";
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	
+	var lounge = Lounge.find({_id: loungeId});
 	
 	for(var artist in jsonArtists.d) {
 		getCorrection += artist + getAPIKey;
 		
 		request(getTopTracks, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				
+				/*
 				var correctedName = body.toptracks.track[0].artist.name;
-				var genre = [];
-				var topTracks = [];
-				
-				for(var track in body.toptracks.track){
-					topTracks.push(track.name);
-				}
+				ArtistModel.find({name: correctedName},  function (err, docs){
+					if(err || typeof docs == 'undefined'){
+						
+						var topTracks = [];
+						
+						for(var track in body.toptracks.track){
+							topTracks.push(track.name);
+						}
+						
+					}
+				});
 				
 				// push to db
 				var artist = new ArtistModel({
 					name: correctedName,
-					genre: genre,
 					topSongs: topTracks
 				});
 				
 				ArtistModel.update({ name: artist.name}, 
-					{name: artist.name, genre: artist.genre, topSoungs: artis.topSongs}, 
+					{name: artist.name, topSoungs: artis.topSongs}, 
 					{upsert: true});
 					
 				updateArtistCounter(artist.name, 1);
-				
+				*/
 			}
 		});
 	}
@@ -114,7 +119,7 @@ exports.popAndUpdateQueue = function(){
 		queueResults = res;
 	});
 	
-	if(queueResults.length() == 0) {
+	if(queueResults.count() == 0) {
 		for(var i = 0; i < MAX_QUEUE_ITEMS; i++) {
 			var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: i });
 			queueItem.save();
