@@ -37,7 +37,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 						console.log("Lounge artists infinite")
 						if(loungeArtists[i].name == correctedName){
 							var registered = false;
-							for (var i=0; i<lounge.devIds; i++){
+							for (var i=0; i<lounge.devIds.length; i++){
 								if (genId == lounge.devIds[i].genId)
 									registered = true;
 							};
