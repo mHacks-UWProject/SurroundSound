@@ -44,7 +44,7 @@ exports.dj = function(req,res) {
 };
 
 exports.postArtists = function(req, res){
-	database.importData(req.body);
+	database.importData(req.body.artists, req.body.id);
 };
 
 exports.newLounge = function(req, res){
@@ -60,7 +60,7 @@ exports.createLounge = function(req, res){
 exports.updateLounge = function(req, res) {
 	Lounge.update({user: req.user.id}, req.body);
 }
-exports.getLounge = function(req, res){
+exports.getLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
 	 	res.send(lounge);
 	 });
@@ -96,3 +96,8 @@ exports.registerGCM = function(req, res) {
 		
 	res.send('sup');
 }
+
+exports.testYoutube = function(req, res){
+	res.send([{artist: "Mumford and Sons", song: "Cave", img: ""}, {artist: "Madeon", song:"Finale", img: ""}, {artist: "Decemberists", 
+		song: "We Both Go Down Together", img: ""}, {artist: "The Protomen", song: "The Hounds", img: ""}, {artist: "Muse", song: "Knights of Cydonia", img: ""}]);
+};

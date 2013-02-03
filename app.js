@@ -99,6 +99,7 @@ app.get('/createLounge', routes.newLounge);
 app.post('/createLounge', routes.createLounge);
 app.post('/queryLounges', routes.queryLounges);
 app.post('/registerGCM', routes.registerGCM);
+app.get('/test', routes.testYoutube);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

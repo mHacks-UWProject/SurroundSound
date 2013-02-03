@@ -125,8 +125,7 @@ exports.recommendSong = function(songJson, loungeId) {
 }
 
 exports.popAndUpdateQueue = function(){
-	var Queue = mongoose.model('Queue');
-	var nextSong = musicAlgorithm.getNextSong();
+	/*var nextSong = musicAlgorithm.getNextSong();
 	var queueResults;
 	Queue.find(null, function(err, res){ 
 		queueResults = res;
@@ -149,6 +148,6 @@ exports.popAndUpdateQueue = function(){
 		}
 		var queueItem = new Queue({ artist: nextSong.artist, track: nextSong.track, position: (MAX_QUEUE_ITEMS-1) });
 		queueItem.save();
-	}	
+	}*/	
 	
 }
