@@ -21,7 +21,7 @@ exports.importData = function (jsonArtists, loungeId) {
 			
 			var getCorrection = getTopTracks + artist + getAPIKey;
 			request(getCorrection, function (error, response, body) {
-				console.log(body);
+				console.log(JSON.parse(body));
 				if (!error && response.statusCode == 200) {
 					var correctedName = body.toptracks.track[0].artist.name;
 
