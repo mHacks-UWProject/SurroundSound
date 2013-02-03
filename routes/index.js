@@ -85,9 +85,9 @@ exports.requestSong = function(req, res) {
 }
 exports.vote = function(req, res) {
 	if (req.body.vote == "up")
-		database.likeArtist(req.id, req.artist)
+		database.likeArtist(req.body.id, req.artist)
 	else if (req.body.vote == "down")
-		database.dislikeArtist(req.id, req.artist)
+		database.dislikeArtist(req.body.id, req.artist)
 	res.send("voted");
 }
 
