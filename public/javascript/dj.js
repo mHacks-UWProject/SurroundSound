@@ -1,5 +1,5 @@
 $(function(){
-	$("#queue").sortable();
+  queueList = $("#queue");
 
   $("#play").click(function(){
     if(playing)
@@ -19,7 +19,8 @@ var ytplayer
   , params = { allowScriptAccess: "always" }
   , atts = { id: "myytplayer" }
   , playing = false
-  , queue;
+  , queue
+  , queueList;
 
 $.get("/nextSong", function(data){
   console.log("Data recieved: ");
@@ -70,10 +71,27 @@ function stateChangeCallBack(i){
 
 function loadNextVideoFromQueue(){
   if(queue) {
-    var song = queue.shift();
+    if(queue.length > 0) {
+      var song = queue.shift();
+      ytplayer.loadSongByUrl(song.url);
+      updateQueueDisplay();
+    } else {
+      displayEmptyQueue();
+    }
     console.log(song);
-    console.log(ytplayer.loadPlaylist({list: song.name + " " + song.artist, listType: "search"}));
   } else {
     console.log("Error: queue from server is empty");
   }
+}
+
+function displayEmptyQueue(){
+  console.log(queueList.find("li"));
+  queueList.find("li").remove();
+  // queueList.insertInto($("<div class='well well-small'>Nope</div>"));
+}
+
+function updateQueueDisplay(){
+  queue.forEach(function(song){
+    $("<li>" + song.song + "</li>").appendTo(queue);
+  });
 }

@@ -96,7 +96,7 @@ exports.queryLounges = function(location, res) {
 			for (var i = 0; i < lounges.length; i++) {
 				//if (lounges.active)
 				var lounge = lounges[i];
-				lounge.nowPlaying = lounges[i].queue[0];
+				//lounge.nowPlaying = lounges[i].queue[0];
 				actives.push(lounge);
 			};
 			res.send(actives);
