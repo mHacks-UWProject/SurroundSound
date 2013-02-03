@@ -25,12 +25,12 @@ var app = express();
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-    mongoose.model('User').findOne({ name: username, pass: password}, function (err, user) {
+    mongoose.model('User').findOne({ username: username, password: password}, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
+      if (!user.password == password) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
@@ -78,9 +78,11 @@ app.get('/login', routes.login);
 app.get('/dj', ensureAuthenticated, function(req, res) {
   var req = req;
   var res = res;
-
-  mongoose.model('User').findOne({name: req.user.name}, function(err, user) {
-    mongoose.model('Lounge').findOne({user: user}, function(err, lounge) {
+  console.log(req.user);
+  mongoose.model('User').findOne({name: req.user.username}, function(err, user) {
+    if (err) res.redirect('/login');
+    mongoose.model('Lounge').findOne({user: user.id}, function(err, lounge) {
+      if (err) res.redirect('/login');
       if (lounge) {
         routes.dj;
       }
@@ -102,6 +104,7 @@ app.post('/registerGCM', routes.registerGCM);
 app.get('/test', routes.testYoutube);
 app.get('/nextSong', routes.nextSong);
 app.post('/vote', routes.vote);
+app.post('/queryLounge', routes.queryLounge)
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });

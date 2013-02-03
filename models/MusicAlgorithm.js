@@ -10,7 +10,7 @@ exports.getNextSong = function(loungeId){
 		var randNum = Math.floor(Math.random()*RAND_MAX);
 		
 		//if selecting requested item or not
-		if(randNum == 0 && lounge.requested.length > 0 ){
+		if(randNum == 0 && lounge.requested && lounge.requested.length > 0 ){
 			nextSong = lounge.requested.shift();
 		} else {
 			// get non requested song based on algorithm
