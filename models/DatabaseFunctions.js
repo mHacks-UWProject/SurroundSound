@@ -21,9 +21,9 @@ exports.importData = function (jsonArtists, loungeId) {
 			
 			var getCorrection = getTopTracks + artist + getAPIKey;
 			request(getCorrection, function (error, response, body) {
-				console.log(JSON.parse(body).toptracks);
+				var tracks = JSON.parse(body).toptracks.track;
 				if (!error && response.statusCode == 200) {
-					var correctedName = JSON.parse(body).toptracks.track[0].artist.name;
+					var correctedName = tracks[0].artist.name;
 
 					for(var loungeArtist in loungeArtists){
 						if(loungeArtist.name == correctedName){
@@ -31,7 +31,7 @@ exports.importData = function (jsonArtists, loungeId) {
 							continue;
 						} else {
 							var topTracks = [];
-							for(var track in body.toptracks.track){
+							for(var track in tracks){
 								topTracks.push(track.name);
 							}
 							lounge.artist.push({
