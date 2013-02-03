@@ -42,9 +42,10 @@ exports.createUser = function(req, res) {
 
 
 exports.dj = function(req,res) {
-	var User = mongoose.model("User");
-	var user = User.update({name: req.user.name}, {active: true});
-	Lounge.update({user: user.id}, {active: true});
+	//var User = mongoose.model("User");
+	//User.update({username: req.user.name}, {active: true}, function(err, user) {
+	//	Lounge.update({user: user.id}, {active: true});
+	//});
 	res.render('dj', { title: 'DJ' });
 };
 

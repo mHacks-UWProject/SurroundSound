@@ -80,15 +80,15 @@ app.get('/dj', ensureAuthenticated, function(req, res) {
   var req = req;
   var res = res;
   console.log(req.user);
-  mongoose.model('User').findOne({name: req.user.username}, function(err, user) {
+  mongoose.model('User').findOne({username: req.user.username}, function(err, user) {
     if (err) res.redirect('/login');
     mongoose.model('Lounge').findOne({user: user.id}, function(err, lounge) {
       if (err) res.redirect('/login');
       if (lounge) {
-        routes.dj;
+        routes.dj(req,res);
       }
       else {
-        routes.createLounge;
+        routes.createLounge(req,res);
       }
     })
   })

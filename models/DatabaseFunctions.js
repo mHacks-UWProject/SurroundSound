@@ -152,6 +152,8 @@ exports.nextSong = function(id, res){
 	var queueResults;
 	
 	Lounge.findById(id, function(err, lounge){
+		if (!lounge.queue) 
+			lounge.queue = [];
 		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
 		res.send(lounge.queue);
 		for (var i = 0; i < lounge.devIds.length; i++) {
