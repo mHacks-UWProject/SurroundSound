@@ -25,14 +25,14 @@ exports.importData = function (jsonArtists, loungeId) {
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
 
-					for(var loungeArtist in loungeArtists){
-						if(loungeArtist.name == correctedName){
+					for(var i = 0; i < loungeArtists.length; i++){
+						if(loungeArtist[i].name == correctedName){
 							updateArtistCounter(artist.name, 1);
 							continue;
 						} else {
 							var topTracks = [];
-							for(var track in tracks){
-								topTracks.push(track.name);
+							for(var i = 0; i < tracks.length; i++){
+								topTracks.push(track[i].name);
 							}
 							lounge.artists.push({
 								name: correctedName,
