@@ -44,7 +44,7 @@ exports.dj = function(req,res) {
 };
 
 exports.postArtists = function(req, res){
-	database.importData(req.body);
+	database.importData(req.body.artists, req.body.id);
 };
 
 exports.newLounge = function(req, res){
@@ -60,7 +60,7 @@ exports.createLounge = function(req, res){
 exports.updateLounge = function(req, res) {
 	Lounge.update({user: req.user.id}, req.body);
 }
-exports.getLounge = function(req, res){
+exports.getLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
 	 	res.send(lounge);
 	 });
@@ -69,7 +69,7 @@ exports.getLounge = function(req, res){
 exports.queryLounges = function(req, res) {
 	var lounges = database.queryLounges(req.body.geo, res);
 	console.log('lounges', lounges)
-	//res.send(lounges);
+	//res.send(lounges);\ \\
 }
 
 exports.requestSong = function(req, res) {
@@ -83,7 +83,8 @@ exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
 	if (req.body['genId'] != "") {
 		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
-		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
+		gcmHelpers.sendId(+
+			req.body['genId'], [req.body['regId']]);
 	} else {
 		var newId = randomstring.generate();
 		var newDevice = new deviceModel({devId: newId, regId: req.body['regId'], stock: ""});
@@ -95,3 +96,8 @@ exports.registerGCM = function(req, res) {
 		
 	res.send('sup');
 }
+
+exports.testYoutube = function(req, res){
+	res.send([{artist: "Mumford and Sons", song: "Cave", img: ""}, {artist: "Madeon", song:"Finale", img: ""}, {artist: "Decemberists", 
+		song: "We Both Go Down Together", img: ""}, {artist: "The Protomen", song: "The Hounds", img: ""}, {artist: "Muse", song: "Knights of Cydonia", img: ""}]);
+};

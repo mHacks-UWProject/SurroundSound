@@ -3,8 +3,9 @@ extends layout
 block head
   link(rel='stylesheet', href='/stylesheets/vendor/jquery-ui-1.10.0.custom.min.css')
   link(rel='stylesheet', href='/stylesheets/vendor/font-awesome.min.css')
-  script(src='/javascript/dj.js')
+  script(src='/javascript/vendor/swfobject.js')
   script(src='/javascript/vendor/jquery-ui-1.10.0.custom.min.js')
+  script(src='/javascript/dj.js')
 
 block content
   .container
@@ -20,9 +21,9 @@ block content
             .controls
               .button.btn
                 i.icon-step-backward
-              .button.btn
+              #play.button.btn
                 i.icon-play
-              .button.btn
+              #next.button.btn
                 i.icon-step-forward
             .title Lateralus
             .artist Tool
@@ -56,3 +57,5 @@ block content
                 .title Lateralus
                 .artist Tool2
       .span6
+        #ytapiplayer
+          |You need Flash player 8+ and JavaScript enabled to view this video.
