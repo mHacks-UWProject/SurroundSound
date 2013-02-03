@@ -36,3 +36,19 @@ a {
 #queue li .well {
 	margin-bottom: 0;
 }
+
+.progress {
+	position: relative;
+}
+.progress .left, .progress .right {
+	z-index: 1;
+    position: absolute;
+    color: #FFF;
+    text-shadow: 1px 1px 1px #666;
+}
+.progress .left {
+	left: 3px;
+}
+.progress .right {
+	right: 3px;
+}
