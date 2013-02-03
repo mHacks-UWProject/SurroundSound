@@ -4,14 +4,24 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    
     <!-- To find chill places around you -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    
-    <!-- Pretty obvious -->
+
+    <permission
+        android:name="com.mHacks.surroundsound.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <!-- App receives GCM messages. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!-- GCM connects to Google Services. -->
     <uses-permission android:name="android.permission.INTERNET" />
-    
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.mHacks.surroundsound.permission.C2D_MESSAGE" />
+
     <!-- For universal image loader caching -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -25,8 +35,10 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.mHacks.surroundsound.TestActivity"
-            android:label="@string/app_name" >
+            android:name="com.mHacks.surroundsound.LoungeListActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,14 +46,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mHacks.surroundsound.LoungeListActivity"
-            android:label="@string/app_name" >
+            android:name="com.mHacks.surroundsound.LoungeActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         
-         <activity
-            android:name="com.mHacks.surroundsound.LoungeActivity"
-            android:label="@string/app_name" >
-        </activity>
+        
+        <service android:name="com.mHacks.surroundsound.GCMIntentService" />
+
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="cat" />
+            </intent-filter>
+        </receiver>
         
     </application>
 

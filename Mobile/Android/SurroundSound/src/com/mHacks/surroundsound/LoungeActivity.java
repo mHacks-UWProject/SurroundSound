@@ -49,7 +49,8 @@ public class LoungeActivity extends Activity{
 		
 		lv.setItemsCanFocus(true);
 		lv.setFocusable(false);
-		
+		lv.setFocusable(false);
+		lv.setFocusableInTouchMode(false);
 		
 	}
 

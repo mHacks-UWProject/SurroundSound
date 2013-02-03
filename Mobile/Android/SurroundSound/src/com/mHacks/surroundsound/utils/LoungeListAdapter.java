@@ -2,11 +2,6 @@ package com.mHacks.surroundsound.utils;
 
 import java.util.ArrayList;
 
-import com.mHacks.surroundsound.R;
-import com.mHacks.surroundsound.R.id;
-import com.mHacks.surroundsound.R.layout;
-import com.mHacks.surroundsound.models.LoungeObect;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,22 +10,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mHacks.surroundsound.R;
+import com.mHacks.surroundsound.models.LoungeObect;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 public class LoungeListAdapter extends ArrayAdapter<LoungeObect> {
-		private final Activity activity;
-		private final ArrayList<LoungeObect> loungeObjects;
+	private final Activity activity;
+	private final ArrayList<LoungeObect> loungeObjects;
+	private ImageLoader mImageloader = null;
 
-		public LoungeListAdapter(Activity activity, int layoutId,
-				ArrayList<LoungeObect> loungeObjects) {
-			super(activity, layoutId, loungeObjects);
-			this.activity = activity;
-			this.loungeObjects = loungeObjects;
+	public LoungeListAdapter(Activity activity, int layoutId,
+			ArrayList<LoungeObect> loungeObjects, ImageLoader imageLoader) {
+		super(activity, layoutId, loungeObjects);
+		this.activity = activity;
+		this.loungeObjects = loungeObjects;
+		this.mImageloader = imageLoader;
+	}
 
-		}
+	// Listview optimizations!!!
 
-		// Listview optimizations!!!
-
-		// Note: Add lazylist loader if there are images.
-		@Override
+	// Note: Add lazylist loader if there are images.
+	@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View rowView = convertView;
 			ViewHolder view;
@@ -49,6 +49,7 @@ public class LoungeListAdapter extends ArrayAdapter<LoungeObect> {
 						.findViewById(R.id.longelist_playing);
 				view.lounge_icon = (ImageView) rowView
 						.findViewById(R.id.loungeobject_lockedicon);
+				view.lounge_album = (ImageView) rowView.findViewById(R.id.loungeobject_album_cover);
 
 				rowView.setTag(view);
 			} else {
@@ -59,20 +60,23 @@ public class LoungeListAdapter extends ArrayAdapter<LoungeObect> {
 			LoungeObect item = loungeObjects.get(position);
 			view.lounge_name.setText(item.getLoungeName());
 			view.lounge_playing.setText(item.getLoungePlaying());
-			if (item.isLoungeLocked()) {
+			if (!item.isLoungeLocked()) {
 				view.lounge_icon.setVisibility(View.GONE);
 			} else {
 				view.lounge_icon.setVisibility(View.VISIBLE);
 			}
+			
+			mImageloader.displayImage(item.getLoungeAlbumURL(), view.lounge_album);
 
 			return rowView;
 		}
 
-		// Here is the viewholder..
-		protected class ViewHolder {
-			protected TextView lounge_name;
-			protected TextView lounge_playing;
-			protected ImageView lounge_icon;
-		}
-
+	// Here is the viewholder..
+	protected class ViewHolder {
+		protected TextView lounge_name;
+		protected TextView lounge_playing;
+		protected ImageView lounge_icon;
+		protected ImageView lounge_album;
 	}
+
+}

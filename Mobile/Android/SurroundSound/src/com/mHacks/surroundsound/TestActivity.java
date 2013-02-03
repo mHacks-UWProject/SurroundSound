@@ -136,20 +136,20 @@ public class TestActivity extends Activity {
 
 		// JSON object to hold the information, which is sent to the server
 
-		try {
-
-			AsyncHttpPost asyncHttpPost = new AsyncHttpPost(postData) {
-				@Override
-				protected void onPostExecute(String result) {
-					Toast.makeText(c, result, Toast.LENGTH_LONG).show();
-
-				};
-			};
-			asyncHttpPost
-					.execute(url);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+//		try {
+//
+//			AsyncHttpPost asyncHttpPost = new AsyncHttpPost(postData) {
+//				@Override
+//				protected void onPostExecute(String result) {
+//					Toast.makeText(c, result, Toast.LENGTH_LONG).show();
+//
+//				};
+//			};
+//			asyncHttpPost
+//					.execute(url);
+//
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
 	}
 }
