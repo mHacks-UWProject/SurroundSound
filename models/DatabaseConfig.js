@@ -28,8 +28,8 @@ var UserSchema = mongoose.Schema({
 	});
 
 var DeviceSchema = mongoose.Schema({
-	webid: Number,
-	regid: Number,
+	genId: String,
+	regId: String
 });
 
 LoungeSchema.index({geolocation: "2d"});
