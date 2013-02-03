@@ -17,14 +17,13 @@ a {
 }
 	.song .coverart-large {
 		float: left;
-		margin-right: 20px;
+		margin-right: 10px;
 	}
 	.song .title {
 		font-weight: bold;
 	}
 	.song .progress {
 		margin-top: 5px;
-		height: 10px;
 	}
 
 #queue {
