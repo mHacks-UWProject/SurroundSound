@@ -93,7 +93,7 @@ app.get('/dj', ensureAuthenticated, function(req, res) {
     })
   })
 
-  res.send("no valid user");
+  //res.send("no valid user");
 });
 app.get('/register', routes.register);
 app.get('/', ensureAuthenticated, routes.index );
