@@ -37,7 +37,7 @@ exports.importData = function (jsonArtists, loungeId) {
 					if (!duplicate) {
 						var topTracks = [];
 						for(var i = 0; i < tracks.length; i++){
-							topTracks.push(track[i].name);
+							topTracks.push(tracks[i].name);
 						}
 						lounge.artists.push({
 							name: correctedName,
