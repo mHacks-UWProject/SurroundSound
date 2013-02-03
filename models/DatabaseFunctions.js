@@ -111,15 +111,17 @@ exports.queryLoungeInformation = function(loungeId){
 }
 
 exports.likeArtist = function(loungeId, artist) {
-	updateArtistCounter(artist, 1);
+	updateArtistCounter(loungeId, artist, 1);
 }
 
 exports.dislikeArtist = function(loungeId, artist) {
-	updateArtistCounter(artist, -1);
+	updateArtistCounter(loungeId, artist, -1);
 }
 
 function updateArtistCounter (loungeId, artist, increment){
+	console.log(loungeId);
 	Lounge.findById(loungeId, function(err, lounge) {
+		if (err) return
 		var artists = lounge.artists;
 		for(var i = 0; i < artists.length; i++) {
 			if(artists[i].name == artist){
