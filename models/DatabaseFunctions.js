@@ -159,8 +159,10 @@ exports.nextSong = function(id, res){
 	var queueResults;
 	
 	Lounge.findById(id, function(err, lounge){
-		if (!lounge.queue) 
+		if (!err && lounge == undefined) {
 			lounge.queue = [];
+			lounge.save();
+		}
 		lounge.queue.slice(1).push({artist: nextSong.artist, song: nextSong.song, img: ""});
 		res.send(lounge.queue);
 		for (var i = 0; i < lounge.devIds.length; i++) {
