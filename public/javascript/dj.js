@@ -22,7 +22,7 @@ var ytplayer
   , queue;
 
 $.get("/nextSong", function(data){
-  console.log("Data recieved" + data);
+  console.log("Data recieved: " + data);
   queue = data;
 })
 

@@ -79,7 +79,7 @@ exports.newUser = function(data) {
 	user.save();
 	return user;
 }
-exports.getLounge = function(id) {
+exports.queryLounge = function(id) {
 	lounge = Lounge.findById(id, function(err, lounge) {
 		return lounge;
 	});

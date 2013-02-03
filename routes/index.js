@@ -66,7 +66,7 @@ exports.createLounge = function(req, res){
 exports.updateLounge = function(req, res) {
 	Lounge.update({user: req.user.id}, req.body);
 }
-exports.getLounge = function(req, res){	
+exports.queryLounge = function(req, res){	
 	 Lounge.findById(req.body.id, function(err, lounge) {
 	 	res.send(lounge);
 	 });
@@ -74,7 +74,6 @@ exports.getLounge = function(req, res){
 
 exports.queryLounges = function(req, res) {
 	database.queryLounges(req.body.geo, res);
-	//res.send(lounges);\ \\
 }
 
 exports.requestSong = function(req, res) {
@@ -88,17 +87,19 @@ exports.vote = function(req, res) {
 		database.likeArtist(req.id, req.artist)
 	else if (req.body.vote == "down")
 		database.dislikeArtist(req.id, req.artist)
+	res.send("voted");
 }
 
 exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
-	console.log("received", req.genId, " ", req.regId);
+	console.log("received", req.body['genId'], " ", req.body['regId']);
 	if (req.body['genId'] != "") {
 		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
 		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
 		//res.send(req.body['devId'])
 	} else {
 		var newId = randomstring.generate();
+		console.log(newId)
 		var newDevice = new deviceModel({genId: newId, regId: req.body['regId']});
 		newDevice.save();
 		gcmHelpers.sendId(newId, [req.body['regId']]);
