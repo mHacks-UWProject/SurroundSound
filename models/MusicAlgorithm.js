@@ -15,13 +15,14 @@ exports.getNextSong = function(loungeId){
 		} else {
 			// get non requested song based on algorithm
 			var artists = lounge.artists;
+			/*
 			artists.sort(function(a,b) {
 				if (a.count < b.count)
 					return -1;mm
 				if (a.count > b.count)
 					return 1;
 				return 0;
-			});
+			});*/
 			var artistScore = [];
 			for(var i = 0; i < artists.length; i++){
 				var artist = artists[i]
