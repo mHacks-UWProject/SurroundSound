@@ -106,15 +106,16 @@ exports.dislikeArtist = function(loungeId, artist) {
 }
 
 function updateArtistCounter (loungeId, artist, increment){
-	var lounge = Lounge.find({ _id: loungeId });
-	var artists = lounge.artists;
-	for(var i = 0; i < artists.count(); i++) {
-		if(artists[i].name == artist){
-			lounge.artists[i].count += increment;
-			lounge.save();
-			return;
+	Lounge.findById(loungeId, function(err, lounge) {
+		var artists = lounge.artists;
+		for(var i = 0; i < artists.length; i++) {
+			if(artists[i].name == artist){
+				lounge.artists[i].count += increment;
+				lounge.save();
+				return;
+			}
 		}
-	}
+	});
 }
 
 exports.recommendSong = function(songJson, loungeId) {
