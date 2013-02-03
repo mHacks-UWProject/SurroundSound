@@ -27,7 +27,7 @@ exports.createUser = function(req, res) {
 		database.newLounge(user);
 		req.login(user, function(err) {
 			if (err) return next(err); 
-			return res.redirect('/newLounge');
+			return res.redirect('/createLounge');
 		});
 	} else {
 		res.send(400);
@@ -39,6 +39,7 @@ exports.createUser = function(req, res) {
 exports.dj = function(req,res) {
 	var User = mongoose.model("User");
 	var user = User.update({name: req.user.name}, {active: true});
+	Lounge.update({user: user.id}, {active: true});
 	res.render('dj', { title: 'DJ' });
 };
 
@@ -66,9 +67,9 @@ exports.getLounge = function(req, res){
 };
 
 exports.queryLounges = function(req, res) {
-	var lounges = database.queryLounges(req.body.geo);
+	var lounges = database.queryLounges(req.body.geo, res);
 	console.log('lounges', lounges)
-	res.send(lounges);
+	//res.send(lounges);
 }
 
 exports.requestSong = function(req, res) {

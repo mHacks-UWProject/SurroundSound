@@ -68,17 +68,20 @@ exports.getLounge = function(id) {
 	});
 }
 
-exports.queryLounges = function(location) {
+exports.queryLounges = function(location, res) {
 	var actives = [];
 	Lounge.find({geolocation: {$near: location, $maxDistance: 10}}, function(err, lounges){ 
-		for (var i =0; i < lounges.length; i++) {
-			User.findById(lounges[i].user.id, function(err, user) {
-				if (lounges[i].user.active)
-					actives.push(lounges[i])
-				if (i == lounges.length - 1)
-					return actives;
-			})
-		}
+		console.log("lounges log", lounges);
+		if (err){
+			console.log(err);
+			res.send("NONE FOUND");
+		} else {
+			for (var i = 0; i < lounges.length; i++) {
+				//if (lounges.active)
+				actives.push(lounges[i]);
+			};
+			res.send(actives);
+		};
 	});
 }
 

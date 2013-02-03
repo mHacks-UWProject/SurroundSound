@@ -18,14 +18,16 @@ var LoungeSchema = mongoose.Schema({
 				count: Number,
 				likes: Number,
 				dislikes: Number}],
-	user: ObjectId
+	user: ObjectId,
+	active: Boolean
 	});
 
 var UserSchema = mongoose.Schema({
 	username: String,
 	password: String,
 	email: String,
-	lounge: ObjectId
+	lounge: ObjectId,
+	active: Boolean
 	});
 
 var DeviceSchema = mongoose.Schema({
