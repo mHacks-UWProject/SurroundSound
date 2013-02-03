@@ -87,7 +87,7 @@ app.get('/dj', ensureAuthenticated, function(req, res) {
         routes.dj(req,res);
       }
       else {
-        routes.createLounge(req,res);
+        routes.newLounge(req,res);
       }
     })
   })
