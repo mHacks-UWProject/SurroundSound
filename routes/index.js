@@ -71,7 +71,6 @@ exports.queryLounge = function(req, res){
 
 exports.queryLounges = function(req, res) {
 	database.queryLounges(req.body.geo, res);
-	//res.send(lounges);\ \\
 }
 
 exports.requestSong = function(req, res) {
@@ -85,7 +84,7 @@ exports.vote = function(req, res) {
 		database.likeArtist(req.id, req.artist)
 	else if (req.body.vote == "down")
 		database.dislikeArtist(req.id, req.artist)
-	res.send("voted")
+	res.send("voted");
 }
 
 exports.registerGCM = function(req, res) {
