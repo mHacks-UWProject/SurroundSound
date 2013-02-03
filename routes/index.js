@@ -69,7 +69,7 @@ exports.getLounge = function(req, res){
 exports.queryLounges = function(req, res) {
 	var lounges = database.queryLounges(req.body.geo, res);
 	console.log('lounges', lounges)
-	//res.send(lounges);
+	//res.send(lounges);\ \\
 }
 
 exports.requestSong = function(req, res) {
@@ -83,7 +83,8 @@ exports.registerGCM = function(req, res) {
 	var deviceModel = mongoose.model('Device');
 	if (req.body['genId'] != "") {
 		deviceModel.update({devId: req.body['genId']}, {regId: req.body['regId']});
-		gcmHelpers.sendId(req.body['genId'], [req.body['regId']]);
+		gcmHelpers.sendId(+
+			req.body['genId'], [req.body['regId']]);
 	} else {
 		var newId = randomstring.generate();
 		var newDevice = new deviceModel({devId: newId, regId: req.body['regId'], stock: ""});

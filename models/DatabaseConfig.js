@@ -6,15 +6,12 @@ var QueueSchema = mongoose.Schema({
 	track: String,
 	position: Number
 	});
-	
+
+
 var ArtistSchema = mongoose.Schema({
 	name: String,
 	genre: [String],
-	topSongs: [String],
-	count: Number,
-	likes: Number,
-	dislikes: Number,
-	request: Boolean,
+	topSongs: [String]
 	});
 
 var LoungeSchema = mongoose.Schema({
@@ -23,7 +20,7 @@ var LoungeSchema = mongoose.Schema({
 	queue: [String],
 	loungePassword: String,
 	artists: [ObjectId],
-	requested: [{song:String, artist:String}],
+	requested: [{song:String, artist:String, img:String}],
 	user: ObjectId,
 	active: Boolean
 	});
