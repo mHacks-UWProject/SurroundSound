@@ -14,6 +14,7 @@ exports.importData = function (jsonArtists, loungeId) {
 	Lounge.findById(loungeId, function(err, lounge) {
 
 		if (err) return
+		console.log("LOUNGE", lounge)
 		var loungeArtists = lounge.artists;
 					
 		for(var i = 0; i < jsonArtists.length; i++) {
