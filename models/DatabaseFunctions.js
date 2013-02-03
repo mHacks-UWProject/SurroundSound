@@ -16,9 +16,9 @@ exports.importData = function (jsonArtists, loungeId) {
 		if (err) return
 		var loungeArtists = lounge.artists;
 					
-		for(var artist in jsonArtists) {
+		for(var i = 0; i < jsonArtists.length; i++) {
 			var artistExists = false;
-			
+			var artist = jsonArtists[i];
 			var getCorrection = getTopTracks + artist + getAPIKey;
 			request(getCorrection, function (error, response, body) {
 				var tracks = JSON.parse(body).toptracks.track;
