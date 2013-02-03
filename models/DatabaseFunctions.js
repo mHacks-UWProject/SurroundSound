@@ -29,7 +29,7 @@ exports.importData = function (jsonArtists, loungeId) {
 					var duplicate = false;
 					for(var i = 0; i < loungeArtists.length; i++){
 						if(loungeArtists[i].name == correctedName){
-							updateArtistCounter(artist.name, 1);
+							updateArtistCounter(loundeId, artist.name, 1);
 							duplicate = true;
 							continue;
 						}
