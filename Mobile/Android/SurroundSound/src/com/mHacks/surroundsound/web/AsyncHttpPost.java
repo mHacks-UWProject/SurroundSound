@@ -53,6 +53,8 @@ public class AsyncHttpPost extends AsyncTask<String, String, String> {
             e.printStackTrace();
         }
         catch (Exception e) {
+        	e.printStackTrace();
+        	//whh
         }
         return str;
     }

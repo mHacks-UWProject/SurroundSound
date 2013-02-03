@@ -4,8 +4,7 @@ var RAND_MAX = 5;
 exports.getNextSong = function(loungeId){
 	var Lounge = mongoose.model('Lounge');
 	Lounge.findById(loungeId, function(err, lounge) {
-
-		if(!err){
+		if(!err && typeof lounge != 'undefined'){
 			var nextSong;
 			
 			// get random number
@@ -16,22 +15,24 @@ exports.getNextSong = function(loungeId){
 				nextSong = lounge.requested.shift();
 			} else {
 				// get non requested song based on algorithm
-				var artists = lounge.artists;
-				var artistScore = [];
-				for(var i = 0; i < artists.length; i++){
-					var artist = artists[i]
-					artistScore.push(artist.count + artist.likes - artist.dislikes)
-				}
-				var highest = 0;
-				var highestindex = 0;
-				for (var i = 0; i < artistScore.length; i ++ ) {
-					if (artistScore[i] > highest){
-						highest = artistScore[i];
-						highestindex = i;
+				if(typeof lounge.artists != 'undefined'){
+					var artists = lounge.artists;
+					var artistScore = [];
+					for(var i = 0; i < artists.length; i++){
+						var artist = artists[i]
+						artistScore.push(artist.count + artist.likes - artist.dislikes)
 					}
+					var highest = 0;
+					var highestindex = 0;
+					for (var i = 0; i < artistScore.length; i ++ ) {
+						if (artistScore[i] > highest){
+							highest = artistScore[i];
+							highestindex = i;
+						}
+					}
+					var highArtist = lounge.artists[highest]
+					nextSong = {artist: highArtist, song: lounge.artists[highest].topSongs[Math.random() * lounge.artists[highest].length]};
 				}
-				var highArtist = lounge.artists[highest]
-				nextSong = {artist: highArtist, song: lounge.artists[highest].topSongs[Math.random() * lounge.artists[highest].length]};
 			}
 		}
 		

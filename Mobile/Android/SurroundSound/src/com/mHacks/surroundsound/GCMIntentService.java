@@ -2,14 +2,19 @@
 package com.mHacks.surroundsound;
 
 import static com.mHacks.surroundsound.CommonUtilities.displayMessage;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.android.gcm.GCMRegistrar;
+
 
 /**
  * IntentService responsible for handling GCM messages.
@@ -33,7 +38,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		
 		
 		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
+				.getDefaultSharedPreferences(context);
 		String genId = prefs.getString("genId", "");
 		ServerUtilities.register(context, registrationId, genId);
 	}
@@ -52,21 +57,36 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 	@Override
-	protected void onMessage(Context context, Intent intent) {
+	protected void onMessage(final Context context, final Intent intent) {
 		Log.i(TAG, "Received message");
-		String message;
-		try {
-			message = intent.getExtras().getString("message");
-			//Send a message to update! GCM is stupid.
-			if (message.contains("update")) {
-				message = "update";
-			} else {
-				//
-			}
-		} catch (Exception e) {
-			message = "nothing";
-		}
-		displayMessage(context, message);
+		
+		AsyncTask<String, String, String> task = new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+            	String message;
+        		try {
+        			message = intent.getExtras().getString("message");
+        			//Send a message to update! GCM is stupid.
+        			if (message.contains("update")) {
+        				message = "update";
+        			} else {
+        				//
+        			}
+        		} catch (Exception e) {
+        			message = "nothing";
+        		}
+            	
+            	return message;
+                          // getForBinaryResponse()
+            }
+            @Override
+            protected void onPostExecute(String result) {
+        		displayMessage(context, result);
+
+            }
+        };
+        task.execute(null,null,null);
+		
 		// notifies user
 
 	}
@@ -98,21 +118,21 @@ public class GCMIntentService extends GCMBaseIntentService {
 	 * Issues a notification to inform the user that server has sent a message.
 	 */
 	private static void generateNotification(Context context, String message) {
-//		int icon = R.drawable.ic_launcher;
-//		long when = System.currentTimeMillis();
-//		NotificationManager notificationManager = (NotificationManager) context
-//				.getSystemService(Context.NOTIFICATION_SERVICE);
-//		Notification notification = new Notification(icon, message, when);
-//		String title = context.getString(R.string.app_name);
-//		Intent notificationIntent = new Intent(context, PebbleStockMain.class);
-//		// set intent so it does not start a new activity
-//		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-//				| Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//		PendingIntent intent = PendingIntent.getActivity(context, 0,
-//				notificationIntent, 0);
-//		notification.setLatestEventInfo(context, title, message, intent);
-//		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-//		notificationManager.notify(0, notification);
+		int icon = R.drawable.ic_launcher;
+		long when = System.currentTimeMillis();
+		NotificationManager notificationManager = (NotificationManager) context
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification(icon, message, when);
+		String title = context.getString(R.string.app_name);
+		Intent notificationIntent = new Intent(context, LoungeListActivity.class);
+		// set intent so it does not start a new activity
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+				| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent intent = PendingIntent.getActivity(context, 0,
+				notificationIntent, 0);
+		notification.setLatestEventInfo(context, title, message, intent);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		notificationManager.notify(0, notification);
 	}
 
 }

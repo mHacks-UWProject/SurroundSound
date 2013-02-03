@@ -2,6 +2,9 @@ package com.mHacks.surroundsound.utils;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,20 +16,23 @@ import android.widget.TextView;
 
 import com.mHacks.surroundsound.R;
 import com.mHacks.surroundsound.models.QueueObject;
+import com.mHacks.surroundsound.web.AsyncHttpPost;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class QueueListAdapter extends ArrayAdapter<QueueObject> {
 	private final Activity activity;
 	private ArrayList<QueueObject> queueObjects;
 	private ImageLoader imageLoader = null;
+	private String mLoungeId;
 
 	public QueueListAdapter(Activity activity, int layoutId,
-			ArrayList<QueueObject> queueObjects, ImageLoader imageLoader) {
+			ArrayList<QueueObject> queueObjects, ImageLoader imageLoader,
+			String loungeId) {
 		super(activity, layoutId, queueObjects);
 		this.activity = activity;
 		this.queueObjects = queueObjects;
 		this.imageLoader = imageLoader;
-
+		this.mLoungeId = loungeId;
 	}
 
 	// Listview optimizations!!!
@@ -65,37 +71,47 @@ public class QueueListAdapter extends ArrayAdapter<QueueObject> {
 		final QueueObject item = queueObjects.get(position);
 
 		OnClickListener upClick = new OnClickListener() {
+			String direction;
 
 			@Override
 			public void onClick(View v) {
 				if (item.getScore() == 0 || item.getScore() == -1) {
 					item.setScore(1);
+					direction = "up";
 				} else {
 					item.setScore(0);
+					direction = "down";
 				}
 
-				changeArrow(item.getScore(), view.upView, view.downView);
+				changeArrow(item.getScore(), view.upView, view.downView,
+						item.getArtistName(), direction);
 			}
 		};
-		
+
 		OnClickListener downClick = new OnClickListener() {
+			String direction;
 
 			@Override
 			public void onClick(View v) {
 				if (item.getScore() == 0 || item.getScore() == 1) {
 					item.setScore(-1);
+					direction = "down";
+
 				} else {
 					item.setScore(0);
+					direction = "up";
+
 				}
 
-				changeArrow(item.getScore(), view.upView, view.downView);
+				changeArrow(item.getScore(), view.upView, view.downView,
+						item.getArtistName(), direction);
 			}
 		};
 
-		changeArrow(item.getScore(), view.upView, view.downView);
+		changeArrow(item.getScore(), view.upView, view.downView,
+				item.getArtistName(), "none");
 		view.upView.setOnClickListener(upClick);
 		view.downView.setOnClickListener(downClick);
-
 
 		view.queue_item_song.setText(item.getSongName());
 		view.queue_item_artist.setText(item.getArtistName());
@@ -116,7 +132,7 @@ public class QueueListAdapter extends ArrayAdapter<QueueObject> {
 	}
 
 	public void changeArrow(int i, ImageView upImageView,
-			ImageView downImageView) {
+			ImageView downImageView, String artistName, String direction) {
 
 		switch (i) {
 		case 1:
@@ -136,11 +152,50 @@ public class QueueListAdapter extends ArrayAdapter<QueueObject> {
 					R.drawable.arrowupgrey));
 			downImageView.setImageDrawable(activity.getResources().getDrawable(
 					R.drawable.arrowbad));
-
 			break;
 
 		}
+		if (direction != "none") {
+			JSONObject voteJSON = new JSONObject();
+			try {
+				voteJSON.put("vote", direction);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				voteJSON.put("id", mLoungeId);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				voteJSON.put("artist", artistName);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
+			postJSON(voteJSON, "http://surroundsound.herokuapp.com/vote");
+
+		}
+	}
+
+	private void postJSON(JSONObject postData, String url) {
+
+		try {
+
+			AsyncHttpPost asyncHttpPost = new AsyncHttpPost(postData) {
+				@Override
+				protected void onPostExecute(String result) {
+					// nothing
+				};
+			};
+			asyncHttpPost.execute(url);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 }
