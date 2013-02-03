@@ -60,8 +60,8 @@ exports.newLounge = function(req, res){
 
 exports.createLounge = function(req, res){
 	User.find({name: req.user.name}, function(err, user) {
-		database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.geolocation, loungePassword: req.body.password});
-		res.redirect("/dj");
+		var lounge = database.newLounge({user: req.user.id, name: req.body.name, geolocation: req.body.geolocation, loungePassword: req.body.password});
+		res.render("/dj", {id: lounge.id});
 	});
 };
 exports.updateLounge = function(req, res) {
@@ -134,8 +134,10 @@ function getYouTubeUrl(song, callback){
 }
 
 exports.nextSong = function(req, res) {
+	console.log("User id: " + req.user.id);
 	var songs = Lounge.find({user: req.user.id}, function(err, lounge) {
-		database.nextSong(lounge.id, res);
+		console.log("Lounge id: " + lounge);
+		database.nextSong(lounge, res);
 	})
 
   async.forEach(songs, getYouTubeUrl, function(err){
