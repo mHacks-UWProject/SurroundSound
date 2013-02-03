@@ -11,7 +11,6 @@ exports.importData = function (jsonArtists, loungeId) {
 	var getTopTracks = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=";
 	var getAPIKey = "&autocorrect=1&api_key=7f989465f20cc96c5bdc96f18dea2ad5&format=json";
 	console.log("ID!!!!", loungeId)
-	console.log("ID...", mongoose.Schema.Types.ObjectId(loungeId));
 
 	Lounge.findById(loungeId, function(err, lounge) {
 
@@ -27,26 +26,28 @@ exports.importData = function (jsonArtists, loungeId) {
 				var tracks = JSON.parse(body).toptracks.track;
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
+					var duplicate = false;
 					for(var i = 0; i < loungeArtists.length; i++){
 						if(loungeArtist[i].name == correctedName){
 							updateArtistCounter(artist.name, 1);
+							duplicate = true;
 							continue;
-						} else {
-							var topTracks = [];
-							for(var i = 0; i < tracks.length; i++){
-								topTracks.push(track[i].name);
-							}
-							console.log(topTracks)
-							lounge.artists.push({
-								name: correctedName,
-								topSongs: topTracks,
-								count: 1,
-								likes: 0,
-								dislikes: 0
-							});
-							lounge.save();
 						}
-					}		
+					}
+					if (!duplicate) {
+						var topTracks = [];
+						for(var i = 0; i < tracks.length; i++){
+							topTracks.push(track[i].name);
+						}
+						lounge.artists.push({
+							name: correctedName,
+							topSongs: topTracks,
+							count: 1,
+							likes: 0,
+							dislikes: 0
+						});
+						lounge.save();
+					}	
 				}
 			});
 		}
