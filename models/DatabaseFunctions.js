@@ -42,6 +42,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 									registered = true;
 							};
 							if (!registered){
+								console.log("importing data thing");
 								updateArtistCounter(loungeId, artist.name, 1);
 								duplicate = true;
 								continue;
@@ -121,7 +122,7 @@ exports.dislikeArtist = function(loungeId, artist) {
 function updateArtistCounter (loungeId, artist, increment){
 	console.log("Update Artist!!", loungeId);
 	Lounge.findById(loungeId, function(err, lounge) {
-		if (err) return
+		if (err) return;
 		var artists = lounge.artists;
 		for(var i = 0; i < artists.length; i++) {
 			if(artists[i].name == artist){
