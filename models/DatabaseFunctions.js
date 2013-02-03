@@ -31,6 +31,7 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 			var getCorrection = getTopTracks + artist + getAPIKey;
 			request(getCorrection, function (error, response, body) {
 				var tracks = JSON.parse(body).toptracks.track;
+				var albumArtArray = JSON.parse(body).toptracks.image;
 				if (!error && response.statusCode == 200) {
 					var correctedName = tracks[0].artist.name;
 					var duplicate = false;
@@ -50,12 +51,18 @@ exports.importData = function (jsonArtists, loungeId, genId) {
 					};
 					if (!duplicate) {
 						var topTracks = [];
+						var albumArt;
 						for(var i = 0; i < tracks.length; i++){
 							topTracks.push(tracks[i].name);
+						}
+						for(var j = 0; j< albumArtArray.length; j++){
+							if(albumArtArray[j].size == "large")
+								albumArt = albumArtArray[j]["#text"];
 						}
 						lounge.artists.push({
 							name: correctedName,
 							topSongs: topTracks,
+							albumImage: albumArt,
 							count: 1,
 							likes: 0,
 							dislikes: 0
