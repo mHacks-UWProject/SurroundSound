@@ -3,7 +3,7 @@ SurroundSound
 
 Music Interest Project
 
-By Michaela, VIctor, Val, Adam
+By Michaela Farova, Victor Vucicevich, Valentin Tstatskin, and Adam Wootton
 
 Heroku
 ------
