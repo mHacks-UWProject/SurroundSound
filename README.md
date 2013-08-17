@@ -24,7 +24,7 @@ We are University of Waterloo Engineering students.
 
 ####Android
 
-*Victor Vucicevich* wrote the android side. 
+**Victor Vucicevich** wrote the android side. 
 
 Victor has worked as an android dev all over the place, such as Kik, Rebellion, and Communitech
 
@@ -34,15 +34,15 @@ Victor has worked as an android dev all over the place, such as Kik, Rebellion, 
 
 All the backend was done by an incredible hackathon team.
 
-*Michaela Farova*
+**Michaela Farova**
 
 Michaela has worked all over such as Desire2Learn, the University of Waterloo, and Tangam Gaming as all kinds of developer
 
-*Valentin Tsatskin*
+**Valentin Tsatskin**
 
 Val has worked at Engagio, Desire2Learn, and Thalmic Labs
 
-*Adam Wootton*
+**Adam Wootton**
 
 Adam has worked at AMD, Communitech, and Influitive
 
