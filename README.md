@@ -18,6 +18,14 @@ Here's how it works:
 
 Neato.
 
+Disclaimer: This was made in Februrary 2013 and is totally not representative of how well we can code. 
+
+There is a lot of sloppy code in this, and this is due to the fact that we had 36 hours to make this AND this was a long time ago.
+
+So look at the idea, and recognize that we actually got it to work. 
+
+We plan to go back to this and actually release it... Sometime.
+
 ##Who are you guys
 
 We are University of Waterloo Engineering students.
